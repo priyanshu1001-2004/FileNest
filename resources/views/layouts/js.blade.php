@@ -1,5 +1,6 @@
 <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 
+
 <!-- BOOTSTRAP JS -->
 <script src="{{ asset('assets/plugins/bootstrap/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -235,14 +236,13 @@
         button.disabled = false;
     };
 
-    // ============================================
-    // FORM VALIDATION
-    // ============================================
     window.validateForm = function (form) {
 
         let isValid = true;
 
         form.find('.is-invalid').removeClass('is-invalid');
+        form.find('.select2-invalid').removeClass('select2-invalid');
+        form.find('.select2-selection').removeClass('is-invalid');
         form.find('.dynamic-error').remove();
 
         form.find('input, select, textarea').each(function () {
@@ -332,16 +332,28 @@
             }
 
             if (error) {
-
                 isValid = false;
-
                 input.addClass('is-invalid');
 
-                input.after(`
-                <div class="invalid-feedback dynamic-error d-block">
+                if (input.hasClass('select2-hidden-accessible')) {
+                    input.next('.select2-container').addClass('select2-invalid');
+                    input.next('.select2-container').find('.select2-selection').addClass('is-invalid');
+                }
+
+                let errorHtml = `
+                 <div class="invalid-feedback dynamic-error d-block">
                     ${error}
-                </div>
-            `);
+                    </div>
+                 `;
+
+                if (input.hasClass('select2-hidden-accessible')) {
+                    input.next('.select2-container').after(errorHtml);
+                } else if (input.closest('.input-group').length) {
+                    input.closest('.input-group').after(errorHtml);
+                } else {
+                    input.after(errorHtml);
+                }
+
             }
         });
 
@@ -353,6 +365,8 @@
     // ===============================
     function showValidationErrors(form, errors) {
         form.find('.is-invalid').removeClass('is-invalid');
+        form.find('.select2-invalid').removeClass('select2-invalid');
+        form.find('.select2-selection').removeClass('is-invalid');
         form.find('.dynamic-error').remove();
         let messages = [];
         $.each(errors, function (key, value) {
@@ -370,11 +384,25 @@
 
             if (input.length) {
                 input.addClass('is-invalid');
-                input.after(`
+
+                if (input.hasClass('select2-hidden-accessible')) {
+                    input.next('.select2-container').addClass('select2-invalid');
+                    input.next('.select2-container').find('.select2-selection').addClass('is-invalid');
+                }
+
+                let errorHtml = `
                 <div class="invalid-feedback dynamic-error d-block">
-                    ${message}
-                </div>
-            `);
+                   ${message}
+                   </div>
+                `;
+
+                if (input.hasClass('select2-hidden-accessible')) {
+                    input.next('.select2-container').after(errorHtml);
+                } else if (input.closest('.input-group').length) {
+                    input.closest('.input-group').after(errorHtml);
+                } else {
+                    input.after(errorHtml);
+                }
             }
 
             messages.push(message);
@@ -384,38 +412,33 @@
     }
 
 
-
-
-    // ============================================
-    // UNIVERSAL AJAX FORM HANDLER
-    // ============================================
+    // ===============================
+    // Global AJAX Form Submit
+    // ===============================
     $(document).on('submit', '.ajax-form', function (e) {
-        console.log("AJAX FORM HIT");
+
         e.preventDefault();
 
         let form = $(this);
-        let submitBtn = form.find('[type="submit"]')[0];
+        let button = form.find('[type="submit"]');
 
-
-        if (typeof validateForm === "function" && !validateForm(form)) {
+        // Frontend Validation
+        if (!validateForm(form)) {
             form.find('.is-invalid:first').focus();
-            toastr.warning("Please correct the highlighted errors.");
+            toastr.warning(
+                'Please correct the highlighted errors.'
+            );
             return;
         }
 
-        showBtnLoader(submitBtn);
-        let formData = new FormData(form[0]);
-        console.log([...formData.entries()]);
-
+        showBtnLoader(button[0]);
         $.ajax({
             url: form.attr('action'),
-            type: 'POST',
-            data: formData,
+            type: form.attr('method') || 'POST',
+            data: new FormData(form[0]),
             contentType: false,
             processData: false,
-            headers: { 'Accept': 'application/json' },
-            success: function (res) {
-
+            success: function (response) {
                 let modal = form.data('modal');
                 if (modal) {
                     $(modal).modal('hide');
@@ -425,31 +448,42 @@
                     form[0].reset();
                 }
 
-                console.log("SERVER RESPONSE:", res);
-                console.log("MESSAGE:", res.message);
-                console.log("TOASTR:", typeof toastr);
+                resetBtnLoader(button[0]);
 
-                resetBtnLoader(submitBtn);
+                toastr.success(response.message ?? 'Saved successfully');
 
-                toastr.success(res.message || 'Data saved successfully');
+                // Full page reload
+                // if (form.data('reload') == 1) {
+                //     location.reload();
+                //     return;
+                // }
 
                 // Table refresh
-                $('#table-container').load(location.href + ' #table-container > *');
-
+                $('#table-container').load(location.href + ' #table-container > *', function (responseText, textStatus, xhr) {
+                    if (textStatus === "error") {
+                        console.error("Table refresh failed: " + xhr.status + " " + xhr.statusText);
+                    }
+                });
             },
+
             error: function (xhr) {
-                resetBtnLoader(submitBtn);
+                resetBtnLoader(button[0]);
                 if (xhr.status === 422) {
                     showValidationErrors(
                         form,
                         xhr.responseJSON.errors
                     );
+
                     return;
                 }
+
                 toastr.error(xhr.responseJSON?.message ?? 'Something went wrong.');
             }
         });
     });
+
+    //global clear button 
+    $('#clearaddBtn').click(() => $('#CreateForm')[0].reset());
 
     // Global delete handler - Add this once in your main JS file
     $(document).on('click', '.delete-btn', function (e) {
@@ -546,5 +580,50 @@
         }
     });
 
-   
+
+    //global toggle button 
+    $(document).on('change', '.globalStatusToggle', function () {
+
+        let checkbox = $(this);
+        let url = "{{url('toggle-status')}}";
+        let id = checkbox.data('id');
+        let model = checkbox.data('model');
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                model: model,
+                id: id,
+            },
+            success: function (res) {
+
+                toastr.success(res.message ?? 'Status updated successfully');
+
+                // let badge = checkbox.closest('tr').find('td:last span');
+
+                // if (res.status) {
+                //     badge.removeClass('badge-danger')
+                //         .addClass('badge-success')
+                //         .text('Active');
+                // } else {
+                //     badge.removeClass('badge-success')
+                //         .addClass('badge-danger')
+                //         .text('Inactive');
+                // }
+                $('#table-container').load(location.href + ' #table-container > *');
+
+            },
+            error: function () {
+                toastr.error('Failed to update status');
+
+                // rollback
+                checkbox.prop('checked', !checkbox.prop('checked'));
+            }
+        });
+    });
+
+
+
 </script>

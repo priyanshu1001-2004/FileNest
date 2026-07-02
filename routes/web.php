@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\buyer\BuyerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\seller\SellerController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\BuyerMiddleware;
 use App\Http\Middleware\SellerMiddleware;
@@ -12,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//global functions
+Route::post('/users/update-password', [UserController::class, 'updatePassword'])->name('users.updatePassword');
+Route::post('/toggle-status', [UserController::class, 'toggleStatus']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -22,6 +27,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //  ADMIN ONLY ROUTES
     Route::middleware([AdminMiddleware::class])->group(function () {
         Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('admin/users', [AdminController::class, 'users'])->name('admin.users.index');
+        Route::put('admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+        Route::delete('admin/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
     });
 
     //  SELLER ONLY ROUTES
@@ -34,6 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('buyer/dashboard', [BuyerController::class, 'dashboard'])->name('buyer.dashboard');
     });
 });
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

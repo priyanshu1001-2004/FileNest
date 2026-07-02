@@ -33,13 +33,16 @@
                 <li class="sub-category">
                     <h3>Profile</h3>
                 </li>
+
+                @if(auth()->user()->isAdmin())
                 <li class="slide">
-                    <a class="side-menu__item {{ request()->routeIs('profile.about.*') ? 'active' : '' }}"
-                        href="#">
+                    <a class="side-menu__item {{ request()->routeIs('admin.users.index') ? 'active' : '' }}"
+                        href="{{ route('admin.users.index') }}">
                         <i class="side-menu__icon fe fe-user"></i>
-                        <span class="side-menu__label">About</span>
+                        <span class="side-menu__label">Users</span>
                     </a>
                 </li>
+                @endif
                
 
                

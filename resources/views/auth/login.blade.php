@@ -1,3 +1,7 @@
+
+            
+    <!-- FAVICON -->
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/brand/new style FN.png" />
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />

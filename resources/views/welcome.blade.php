@@ -61,6 +61,10 @@
 <!-- Tailwind (utility classes used throughout the original design) -->
 <script src="https://cdn.tailwindcss.com"></script>
 
+
+    <!-- FAVICON -->
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/brand/new style FN.png" /> 
+    
 <!-- Custom styles / keyframes -->
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -89,10 +93,10 @@
 
     <!-- Desktop Links -->
     <div class="hidden md:flex items-center gap-2">
-      <a data-scroll="#home" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Home</a>
+      <!-- <a data-scroll="#home" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Home</a>
       <a data-scroll="#about" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">About</a>
       <a data-scroll="catalog" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Catalog</a>
-      <a data-scroll="#contact" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Contact</a>
+      <a data-scroll="#contact" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Contact</a> -->
       <a href="{{ route('login') }}" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full border border-[#0a0a0a] hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Login</a>
       <a href="{{ route('register') }}" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full border border-[#0a0a0a] hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Register</a>
     </div>
@@ -107,10 +111,7 @@
 
   <!-- Mobile Menu -->
   <div id="mobile-menu" class="fixed inset-0 bg-[#f8f7f4] z-[999] flex-col items-center justify-center gap-8 hidden">
-    <a data-scroll="#home" class="mobile-link font-['Bebas_Neue'] text-5xl tracking-widest text-[#0a0a0a] cursor-pointer">Home</a>
-    <a data-scroll="#about" class="mobile-link font-['Bebas_Neue'] text-5xl tracking-widest text-[#0a0a0a] cursor-pointer">About</a>
-    <a data-scroll="#catalog" class="mobile-link font-['Bebas_Neue'] text-5xl tracking-widest text-[#0a0a0a] cursor-pointer">Catalog</a>
-    <a data-scroll="#contact" class="mobile-link font-['Bebas_Neue'] text-5xl tracking-widest text-[#0a0a0a] cursor-pointer">Contact</a>
+   
     <a href="{{ route('login') }}" class="mobile-link font-['Bebas_Neue'] text-5xl tracking-widest text-[#0a0a0a] cursor-pointer">Login</a>
     <a href="{{ route('register') }}" class="mobile-link font-['Bebas_Neue'] text-5xl tracking-widest text-[#0a0a0a] cursor-pointer">Register</a>
   </div>

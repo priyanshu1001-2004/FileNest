@@ -91,7 +91,7 @@
     <div class="hidden md:flex items-center gap-2">
       <a data-scroll="#home" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Home</a>
       <a data-scroll="#about" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">About</a>
-      <a data-scroll="#catalog" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Catalog</a>
+      <a data-scroll="catalog" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Catalog</a>
       <a data-scroll="#contact" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Contact</a>
       <a href="{{ route('login') }}" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full border border-[#0a0a0a] hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Login</a>
       <a href="{{ route('register') }}" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full border border-[#0a0a0a] hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Register</a>
@@ -385,9 +385,9 @@
     <!-- ─── ABOUT SPLIT ─── -->
     <section id="about-split" class="py-[120px] px-[5vw] grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
       <div class="reveal hidden md:block">
-        <div class="aspect-square bg-[#e6a1a1] rounded-3xl relative overflow-hidden flex items-center justify-center">
+        <div class="aspect-square bg-[#000000] rounded-3xl relative overflow-hidden flex items-center justify-center">
           <div class="font-['Bebas_Neue'] text-[10vw] text-white/4 text-center leading-[0.9] tracking-tight select-none">
-            File<br />Nest
+            File<br />Nest 
           </div>
           <div class="absolute bottom-8 right-8 bg-[#f8f7f4] rounded-2xl px-6 py-5 shadow-2xl">
             <span class="font-['Bebas_Neue'] text-[40px] block leading-none">2022</span>

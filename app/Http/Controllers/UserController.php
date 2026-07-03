@@ -78,10 +78,9 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+
         $validated = $request->validate([
             'name'   => 'required|string|max:255',
-            'email'  => 'required|email|unique:users,email,' . $user->id,
-            'role'   => 'required|in:0,1,2',
             'status' => 'required|in:0,1', // Added to capture your new status field
         ]);
 

@@ -15,6 +15,7 @@ class AdminController extends Controller
 
     public function users(Request $request)
     {
+        $totalUsers   = User::where('role', '!=', 0)->count();
         $totalSellers = User::where('role', 1)->count();
         $totalBuyers  = User::where('role', 2)->count();
         $activeUsers  = User::where('role', '!=', 0)->where('status', 1)->count();
@@ -38,6 +39,6 @@ class AdminController extends Controller
 
         $users = $query->latest()->paginate(10);
 
-        return view('admin.users.index', compact('users', 'totalSellers', 'totalBuyers', 'activeUsers'));
+        return view('admin.users.index', compact('users', 'totalSellers', 'totalBuyers', 'activeUsers', 'totalUsers'));
     }
 }

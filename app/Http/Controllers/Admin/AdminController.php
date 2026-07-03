@@ -17,9 +17,9 @@ class AdminController extends Controller
     {
         $totalSellers = User::where('role', 1)->count();
         $totalBuyers  = User::where('role', 2)->count();
-        $activeUsers  = User::where('role', '!=', 'admin')->where('status', 1)->count();
+        $activeUsers  = User::where('role', '!=', 0)->where('status', 1)->count();
 
-        $query = User::where('role', '!=', 'admin');
+        $query = User::where('role', '!=', 0);
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {

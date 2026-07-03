@@ -15,6 +15,7 @@
                     </div>
                 </div>
 
+                <!-- // Users Statistics Cards -->
                 <div class="row mt-5 px-5">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
                         <div class="card bg-primary img-card box-primary-shadow border-0 rounded-4">
@@ -81,10 +82,11 @@
                     </div>
                 </div>
 
+                <!-- // Filter Form -->
                 <div class="row row-sm ">
                     <div class="col-lg-12">
                         <div class="card border-0  rounded-4">
-                            <div class="card-body p-4">
+                            <div class="card-body py-0">
                                 <form method="GET" action="{{ route('admin.users.index') }}"
                                     class="row g-3 align-items-end">
                                     <div class="col-md-4">
@@ -133,7 +135,8 @@
                     </div>
                 </div>
 
-                <div class="card-body">
+                <!-- // Users Table -->
+                <div class="card-body pt-0">
                     <div class="table-responsive">
                         <div id="table-container">
                             <table class="table table-bordered text-nowrap border-bottom">
@@ -318,6 +321,5 @@
         });
     });
 </script>
-
 
 @endsection

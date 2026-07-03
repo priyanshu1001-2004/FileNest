@@ -5,18 +5,21 @@ use App\Http\Controllers\buyer\BuyerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\seller\SellerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\BuyerMiddleware;
 use App\Http\Middleware\SellerMiddleware;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+// 1. Public Routes (Anyone can see these - Guest or Logged In)
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 //global functions
 Route::post('/users/update-password', [UserController::class, 'updatePassword'])->name('users.updatePassword');
 Route::post('/toggle-status', [UserController::class, 'toggleStatus']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -1,3 +1,6 @@
+        
+    <!-- FAVICON -->
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/brand/new style FN.png" />
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf

@@ -93,10 +93,10 @@
 
     <!-- Desktop Links -->
     <div class="hidden md:flex items-center gap-2">
-      <!-- <a data-scroll="#home" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Home</a>
-      <a data-scroll="#about" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">About</a>
-      <a data-scroll="catalog" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Catalog</a>
-      <a data-scroll="#contact" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Contact</a> -->
+      <a href="#" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Catalog</a>
+      <a href="#" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">About</a>
+      <a href="#" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Blog</a>
+      <a href="#" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Pricing</a>
       <a href="{{ route('login') }}" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full border border-[#0a0a0a] hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Login</a>
       <a href="{{ route('register') }}" class="text-xs font-semibold tracking-widest text-[#0a0a0a] uppercase px-4 py-2 rounded-full border border-[#0a0a0a] hover:bg-[#0a0a0a] hover:text-[#f8f7f4] transition-colors duration-200 cursor-pointer">Register</a>
     </div>
@@ -239,91 +239,18 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border border-white/8 rounded-3xl overflow-hidden mt-20" id="features-grid"></div>
     </section>
 
-    <!-- ─── PRICING ─── -->
-    <section id="catalog" class="py-[120px] px-[5vw]">
-      <div class="reveal"><div class="flex items-center gap-3 text-[11px] tracking-[0.15em] uppercase font-medium text-[#888]"><span class="block w-6 h-px bg-[#888]"></span>Pricing</div></div>
-      <div class="reveal" data-delay="100">
-        <h2 class="font-['DM_Serif_Display'] text-[clamp(36px,5vw,72px)] tracking-tight leading-[1.05] max-w-[700px] mt-4">
-          Simple, transparent<br /><em class="not-italic text-[#888]">pricing.</em>
-        </h2>
-      </div>
-      <div class="reveal" data-delay="150">
-        <p class="text-[#555] max-w-[440px] leading-[1.7] mt-7 font-light text-[15px]">
-          Start for free. Upgrade only when you're ready to scale your store.
-        </p>
-      </div>
+   <!-- ─── HERO / CTA ─── -->
+    <section class="py-[160px] px-[5vw] bg-white flex flex-col items-center justify-center text-center">
+      <h2 class="font-['DM_Serif_Display'] text-[clamp(32px,5.5vw,64px)] tracking-tight leading-[1.15] text-[#0a0a0a] max-w-[900px]">
+        Share your work.<br />
+        Someone out there needs it.
+      </h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-[72px] items-stretch">
-
-        <!-- FREE PLAN -->
-        <div class="reveal h-full" data-delay="0">
-          <div class="h-full flex flex-col border border-black/10 rounded-3xl p-10 bg-[#f8f7f4] hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
-            <div class="text-[11px] font-semibold tracking-widest uppercase text-[#888]">Free</div>
-            <div class="flex items-end gap-1 mt-5">
-              <span class="font-['Bebas_Neue'] text-[56px] leading-none tracking-wide">$0</span>
-              <span class="text-sm text-[#888] mb-1">/month</span>
-            </div>
-            <p class="text-[13px] text-[#999] mt-3">For creators just getting started.</p>
-            <ul class="flex flex-col gap-3 mt-8 flex-1">
-              <li class="flex items-start gap-3 text-sm text-[#444]"><span class="font-['DM_Serif_Display'] text-[#0a0a0a] flex-shrink-0">✓</span>Up to 5 product listings</li>
-              <li class="flex items-start gap-3 text-sm text-[#444]"><span class="font-['DM_Serif_Display'] text-[#0a0a0a] flex-shrink-0">✓</span>7% transaction fee</li>
-              <li class="flex items-start gap-3 text-sm text-[#444]"><span class="font-['DM_Serif_Display'] text-[#0a0a0a] flex-shrink-0">✓</span>Basic analytics</li>
-              <li class="flex items-start gap-3 text-sm text-[#444]"><span class="font-['DM_Serif_Display'] text-[#0a0a0a] flex-shrink-0">✓</span>Weekly payouts</li>
-            </ul>
-            <a class="inline-flex items-center justify-center gap-2.5 bg-transparent text-[#0a0a0a] text-xs font-semibold tracking-widest uppercase px-9 py-4 rounded-full border border-black/10 cursor-pointer hover:border-[#0a0a0a] transition-all duration-200 mt-10">
-              Get Started
-            </a>
-          </div>
-        </div>
-
-        <!-- PRO PLAN (highlighted) -->
-        <div class="reveal h-full" data-delay="100">
-          <div class="h-full flex flex-col border border-[#0a0a0a] rounded-3xl p-10 bg-[#0a0a0a] text-[#f8f7f4] relative overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
-            <span class="absolute top-6 right-6 bg-[#f8f7f4] text-[#0a0a0a] text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full">Most Popular</span>
-            <div class="text-[11px] font-semibold tracking-widest uppercase text-white/50">Pro</div>
-            <div class="flex items-end gap-1 mt-5">
-              <span class="font-['Bebas_Neue'] text-[56px] leading-none tracking-wide">$19</span>
-              <span class="text-sm text-white/50 mb-1">/month</span>
-            </div>
-            <p class="text-[13px] text-white/40 mt-3">For sellers ready to grow serious revenue.</p>
-            <ul class="flex flex-col gap-3 mt-8 flex-1">
-              <li class="flex items-start gap-3 text-sm text-white/80"><span class="font-['DM_Serif_Display'] text-[#f8f7f4] flex-shrink-0">✓</span>Unlimited product listings</li>
-              <li class="flex items-start gap-3 text-sm text-white/80"><span class="font-['DM_Serif_Display'] text-[#f8f7f4] flex-shrink-0">✓</span>Only 3% transaction fee</li>
-              <li class="flex items-start gap-3 text-sm text-white/80"><span class="font-['DM_Serif_Display'] text-[#f8f7f4] flex-shrink-0">✓</span>Deep analytics dashboard</li>
-              <li class="flex items-start gap-3 text-sm text-white/80"><span class="font-['DM_Serif_Display'] text-[#f8f7f4] flex-shrink-0">✓</span>Instant payouts</li>
-              <li class="flex items-start gap-3 text-sm text-white/80"><span class="font-['DM_Serif_Display'] text-[#f8f7f4] flex-shrink-0">✓</span>Built-in affiliate system</li>
-            </ul>
-            <a class="inline-flex items-center justify-center gap-2.5 bg-[#f8f7f4] text-[#0a0a0a] text-xs font-semibold tracking-widest uppercase px-9 py-4 rounded-full cursor-pointer hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 mt-10">
-              Upgrade to Pro
-            </a>
-          </div>
-        </div>
-
-        <!-- BUSINESS PLAN -->
-        <div class="reveal h-full" data-delay="200">
-          <div class="h-full flex flex-col border border-black/10 rounded-3xl p-10 bg-[#f8f7f4] hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
-            <div class="text-[11px] font-semibold tracking-widest uppercase text-[#888]">Business</div>
-            <div class="flex items-end gap-1 mt-5">
-              <span class="font-['Bebas_Neue'] text-[56px] leading-none tracking-wide">$49</span>
-              <span class="text-sm text-[#888] mb-1">/month</span>
-            </div>
-            <p class="text-[13px] text-[#999] mt-3">For teams and high-volume stores.</p>
-            <ul class="flex flex-col gap-3 mt-8 flex-1">
-              <li class="flex items-start gap-3 text-sm text-[#444]"><span class="font-['DM_Serif_Display'] text-[#0a0a0a] flex-shrink-0">✓</span>Everything in Pro</li>
-              <li class="flex items-start gap-3 text-sm text-[#444]"><span class="font-['DM_Serif_Display'] text-[#0a0a0a] flex-shrink-0">✓</span>Just 1.5% transaction fee</li>
-              <li class="flex items-start gap-3 text-sm text-[#444]"><span class="font-['DM_Serif_Display'] text-[#0a0a0a] flex-shrink-0">✓</span>Multi-seat team access</li>
-              <li class="flex items-start gap-3 text-sm text-[#444]"><span class="font-['DM_Serif_Display'] text-[#0a0a0a] flex-shrink-0">✓</span>Priority support</li>
-            </ul>
-            <a class="inline-flex items-center justify-center gap-2.5 bg-transparent text-[#0a0a0a] text-xs font-semibold tracking-widest uppercase px-9 py-4 rounded-full border border-black/10 cursor-pointer hover:border-[#0a0a0a] transition-all duration-200 mt-10">
-              Contact Sales
-            </a>
-          </div>
-        </div>
-
-      </div>
+      <a href="{{ route('seller.register') }}" class="inline-flex items-center justify-center gap-2.5 bg-[#0a0a0a] text-white text-xs font-semibold tracking-widest uppercase px-9 py-4 rounded-full cursor-pointer hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 mt-10">
+        Start Selling
+      </a>
     </section>
-
-    <!-- ─── REVIEWS ─── -->
+    
     <!-- ─── REVIEWS ─── -->
     <section id="reviews" class="py-[120px] px-[5vw] bg-[#0f0f0f] text-[#f8f7f4] overflow-hidden">
       <div class="reveal"><div class="flex items-center gap-3 text-[11px] tracking-[0.15em] uppercase font-medium text-white/30"><span class="block w-6 h-px bg-white/30"></span>Testimonials</div></div>
@@ -415,7 +342,7 @@
           </ul>
         </div>
         <div class="reveal" data-delay="300">
-          <a data-scroll="#catalog" class="inline-flex items-center gap-2.5 bg-[#0a0a0a] text-[#f8f7f4] text-xs font-semibold tracking-widest uppercase px-9 py-4 rounded-full cursor-pointer hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 mt-10">
+          <a href="{{ route('seller.register') }}" class="inline-flex items-center gap-2.5 bg-[#0a0a0a] text-[#f8f7f4] text-xs font-semibold tracking-widest uppercase px-9 py-4 rounded-full cursor-pointer hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 mt-10">
             Start Selling Today →
           </a>
         </div>

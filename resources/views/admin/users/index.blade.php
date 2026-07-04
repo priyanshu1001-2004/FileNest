@@ -22,7 +22,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="text-white">
-                                        <h2 class="mb-0 number-font fw-bold">{{ $users->total() ?? 0 }}</h2>
+                                        <h2 class="mb-0 number-font fw-bold">{{ $totalUsers ?? 0 }}</h2>
                                         <p class="text-white-50 mb-0 fs-13">Total Users</p>
                                     </div>
                                     <div class="ms-auto text-white-50">
@@ -30,7 +30,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>  
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
@@ -266,14 +266,13 @@
                         <label class="form-label fw-semibold">
                             <i class="fe fe-mail me-1"></i>Email Address *
                         </label>
-                        <input type="email" name="email" id="edit_email" class="form-control" required>
+                        <input type="email" name="email" id="edit_email" class="form-control" disabled>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">
                             <i class="fe fe-shield me-1"></i>Account Role *
                         </label>
-                        <select name="role" id="edit_role" class="form-control form-select" required>
-                            <option value="0">User</option>
+                        <select name="role" id="edit_role" class="form-control form-select" disabled>
                             <option value="1">Seller</option>
                             <option value="2">Buyer</option>
                         </select>

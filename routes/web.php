@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\buyer\BuyerController;
+use App\Http\Controllers\buyer\BuyerProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\seller\SellerController;
+use App\Http\Controllers\seller\SellerProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\AdminMiddleware;
@@ -25,24 +27,25 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    //  ADMIN ONLY ROUTES
-    Route::middleware([AdminMiddleware::class])->group(function () {
-        Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-        Route::get('admin/users', [AdminController::class, 'users'])->name('admin.users.index');
-        Route::put('admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
-        Route::delete('admin/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+    Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+        Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+        Route::get('/profile', [AdminController::class, 'profile'])->name('profile.show');
     });
 
-    //  SELLER ONLY ROUTES
-    Route::middleware([SellerMiddleware::class])->group(function () {
-        Route::get('seller/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
+    Route::middleware([SellerMiddleware::class])->prefix('seller')->name('seller.')->group(function () {
+        Route::get('/dashboard', [SellerController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [SellerProfileController::class, 'index'])->name('profile.index');
     });
 
-    //  BUYER ONLY ROUTES
-    Route::middleware([BuyerMiddleware::class])->group(function () {
-        Route::get('buyer/dashboard', [BuyerController::class, 'dashboard'])->name('buyer.dashboard');
+    Route::middleware([BuyerMiddleware::class])->prefix('buyer')->name('buyer.')->group(function () {
+        Route::get('/dashboard', [BuyerController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [BuyerProfileController::class, 'index'])->name('profile.index');
     });
 });
 

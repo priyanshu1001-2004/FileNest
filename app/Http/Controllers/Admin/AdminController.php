@@ -41,4 +41,10 @@ class AdminController extends Controller
 
         return view('admin.users.index', compact('users', 'totalSellers', 'totalBuyers', 'activeUsers', 'totalUsers'));
     }
+
+    public function profile()
+    {
+        $user = auth()->user();
+        return view('admin.profile.index', compact('user'));
+    }
 }

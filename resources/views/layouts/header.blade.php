@@ -6,12 +6,13 @@
                 href="javascript:void(0)"></a>
             <!-- sidebar-toggle-->
             <a class="logo-horizontal " href="#">
-                <img src="{{ asset('assets/images/brand/hlogo.png') }}" class="header-brand-img desktop-logo h-20 w-20" alt="logo">
-                <img src="{{ asset('assets/images/brand/black-hlogo.png') }}" class="header-brand-img light-logo1 h-25 w-25"
+                <img src="{{ asset('assets/images/brand/hlogo.png') }}" class="header-brand-img desktop-logo h-20 w-20"
                     alt="logo">
+                <img src="{{ asset('assets/images/brand/black-hlogo.png') }}"
+                    class="header-brand-img light-logo1 h-25 w-25" alt="logo">
             </a>
             <!-- LOGO -->
-            
+
             <div class="d-flex order-lg-2 ms-auto header-right-icons">
                 <div class="dropdown d-none">
                     <a href="javascript:void(0)" class="nav-link icon" data-bs-toggle="dropdown">
@@ -48,7 +49,7 @@
                                     </div>
                                 </div>
                             </div>
-                           
+
                             <div class="d-flex country">
                                 <a class="nav-link icon theme-layout nav-link-bg layout-setting">
                                     <span class="dark-layout"><i class="fe fe-moon"></i></span>
@@ -56,7 +57,7 @@
                                 </a>
                             </div>
                             <!-- Theme-Layout -->
-                            
+
                             <!-- CART -->
                             <div class="dropdown d-flex">
                                 <a class="nav-link icon full-screen-link nav-link-bg">
@@ -64,7 +65,7 @@
                                 </a>
                             </div>
                             <!-- FULL-SCREEN -->
-                            
+
                             <div class="dropdown d-flex profile-1">
                                 <a href="javascript:void(0)" data-bs-toggle="dropdown"
                                     class="nav-link leading-none d-flex">
@@ -79,13 +80,25 @@
                                         </div>
                                     </div>
                                     <div class="dropdown-divider m-0"></div>
-                                    <a class="dropdown-item" href="profile.html">
+
+                                    @if(auth()->user()->role == 0)
+                                    <a class="dropdown-item" href="{{ route('admin.profile.show') }}">
                                         <i class="dropdown-icon fe fe-user"></i> Profile
                                     </a>
-                                   
+                                    @elseif(auth()->user()->role == 1)
+                                    <a class="dropdown-item" href="{{ route('seller.profile.index') }}">
+                                        <i class="dropdown-icon fe fe-user"></i> Profile
+                                    </a>
+                                    @elseif(auth()->user()->role == 2)
+                                    <a class="dropdown-item" href="{{ route('buyer.profile.index') }}">
+                                        <i class="dropdown-icon fe fe-user"></i> Profile
+                                    </a>
+                                    @endif
+
                                     <form action="{{ route('logout') }}" method="post">
                                         @csrf
-                                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); this.closest('form').submit();">
                                             <i class="dropdown-icon fe fe-alert-circle"></i> Sign out
                                         </a>
                                     </form>

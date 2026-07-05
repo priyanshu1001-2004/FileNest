@@ -140,7 +140,7 @@
     opacity: 0.75;
   }
   .loginlink:hover{ opacity: 1; }
-
+/* 
   .oauth-btn{
     width:100%;
     display:flex;
@@ -168,7 +168,7 @@
     border: 1px solid var(--field-border);
     margin-top: 10px;
   }
-  .oauth-x:hover{ border-color: var(--ink); }
+  .oauth-x:hover{ border-color: var(--ink); } */
 
   .divider{
     display:flex;
@@ -314,7 +314,7 @@
           </div>
           <a href="{{ route('login') }}" class="loginlink">Log in</a>
         </div>
-
+<!-- 
         <button type="button" class="oauth-btn oauth-google">
           <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#fff" d="M21.35 11.1h-9.17v2.98h5.4c-.23 1.44-1.66 4.22-5.4 4.22-3.25 0-5.9-2.69-5.9-6s2.65-6 5.9-6c1.85 0 3.09.79 3.8 1.47l2.6-2.5C17.05 3.6 14.9 2.6 12.18 2.6 6.9 2.6 2.6 6.9 2.6 12.18s4.3 9.58 9.58 9.58c5.53 0 9.2-3.89 9.2-9.36 0-.63-.07-1.11-.03-1.3z"/></svg>
           Continue with Google
@@ -324,7 +324,7 @@
           Continue with X
         </button>
 
-        <div class="divider"><span class="line"></span><span>or</span><span class="line"></span></div>
+        <div class="divider"><span class="line"></span><span>or</span><span class="line"></span></div> -->
 
         <form method="POST" action="{{ route('register') }}">
           @csrf

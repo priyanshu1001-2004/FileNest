@@ -1,503 +1,399 @@
 <!doctype html>
-<html lang="en" dir="ltr">
-
+<html lang="en">
 <head>
-
-    <!-- META DATA -->
-    <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Sash – Bootstrap 5  Admin & Dashboard Template">
-    <meta name="author" content="Spruko Technologies Private Limited">
-    <meta name="keywords"
-        content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FileNest - Seller Sign Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- FAVICON -->
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/brand/new style FN.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/brand/new style FN.png" /> 
+<style>
+  :root{
+    --bg: #f8f7f4;
+    --ink: #0a0a0a;
+    --line: rgba(10,10,10,0.07);
+    --line-light: rgba(255,255,255,0.09);
+    --muted: #888888;
+    --field: #ffffff;
+    --field-border: rgba(10,10,10,0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body{
+    margin:0;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+  }
 
-    <!-- TITLE -->
-    <title>FileNest - Product Selling Form</title>
+  .screen{
+    height: 100vh;
+    width: 100%;
+    display:flex;
+  }
 
-    <!-- BOOTSTRAP CSS -->
-    <link id="style" href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  /* ---------- LEFT: brand / pitch panel ---------- */
+  .panel-left{
+    flex: 1 1 46%;
+    max-width: 46%;
+    background-color: var(--ink);
+    background-image:
+      linear-gradient(to right, var(--line-light) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line-light) 1px, transparent 1px);
+    background-size: 64px 64px;
+    color: #f8f7f4;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 44px 52px;
+  }
+  .brand{
+    font-family:'DM Serif Display', serif;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  .pitch{
+    max-width: 420px;
+  }
+  .pitch h1{
+    font-family:'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(30px, 3vw, 42px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 0 0 22px;
+  }
+  .pitch h1 em{
+    font-style: normal;
+    color: #9a9a9a;
+  }
+  .pitch p{
+    font-size: 14px;
+    line-height: 1.7;
+    color: #b9b9b9;
+    margin: 0 0 28px;
+  }
+  .perks{
+    list-style:none;
+    padding:0;
+    margin:0;
+    display:flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .perks li{
+    display:flex;
+    align-items:flex-start;
+    gap: 12px;
+    font-size: 13px;
+    color: #e6e6e6;
+  }
+  .perks li svg{ flex-shrink:0; margin-top: 2px; }
+  .perks li b{ display:block; color:#fff; font-size:13px; margin-bottom:2px; }
+  .perks li span.desc{ color:#9a9a9a; }
 
-    <!-- STYLE CSS -->
-    <link href="../assets/css/style.css" rel="stylesheet" />
-    <link href="../assets/css/dark-style.css" rel="stylesheet" />
-    <link href="../assets/css/transparent-style.css" rel="stylesheet">
-    <link href="../assets/css/skin-modes.css" rel="stylesheet" />
+  .foot-note{
+    font-size: 12px;
+    color: #777;
+  }
 
-    <!--- FONT ICONS CSS -->
-    <link href="../assets/css/icons.css" rel="stylesheet" />
+  /* ---------- RIGHT: form panel ---------- */
+  .panel-right{
+    flex: 1 1 54%;
+    max-width: 54%;
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 32px;
+    overflow-y: auto;
+  }
+  .card{
+    width: 100%;
+    max-width: 380px;
+  }
+  .card-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  .card-top-mobile{ display: none; }
+  .card-heading{
+    font-family:'DM Serif Display', serif;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+  }
+  .card-subtext{
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .signuplink{
+    font-size: 13px;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    opacity: 0.75;
+  }
+  .signuplink:hover{ opacity: 1; }
 
-    <!-- COLOR SKIN CSS -->
-    <link id="theme" rel="stylesheet" type="text/css" media="all" href="../assets/colors/color1.css" />
+  .fn-status{
+    background: #eef7ee;
+    border: 1px solid rgba(34,139,34,0.25);
+    color: #1e6b1e;
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
 
+  .field-label{
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ink);
+    display:block;
+    margin-bottom: 6px;
+  }
+
+  .field-group{ margin-bottom: 14px; }
+  .field-wrap{ position: relative; }
+  input[type="email"],
+  input[type="password"],
+  input[type="text"]{
+    width:100%;
+    background: var(--field);
+    border: 1px solid var(--field-border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .2s ease;
+  }
+  input:focus{ border-color: var(--ink); }
+  input.fn-input-error{ border-color: #d33; }
+
+  .fn-error{
+    color: #d33;
+    font-size: 11.5px;
+    margin-top: 5px;
+  }
+
+  .toggle-pass{
+    position:absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background:none;
+    border:none;
+    cursor:pointer;
+    color: var(--muted);
+    display:flex;
+  }
+  .toggle-pass:hover{ color: var(--ink); }
+
+  .submit-btn{
+    width:100%;
+    background: var(--ink);
+    color:#fff;
+    border:none;
+    border-radius: 999px;
+    padding: 13px 16px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor:pointer;
+    transition: all .2s ease;
+    margin-top: 4px;
+  }
+  .submit-btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(10,10,10,0.2); }
+
+  .fineprint{
+    text-align:center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 18px;
+    line-height: 1.6;
+  }
+  .fineprint a{ color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ---------- responsive: stack on small screens, allow scroll there ---------- */
+  @media (max-width: 860px){
+    body{ overflow: auto; }
+    .screen{ height: auto; flex-direction: column; }
+    .panel-left{ display: none; }
+    .panel-right{ max-width: 100%; flex: none; padding: 70px 24px 48px; }
+    .card-top-desktop{ display: none; }
+    .card-top-mobile{ display: flex; }
+}
+</style>
 </head>
+<body>
 
-<body class="app sidebar-mini ltr">
+  <div class="screen">
 
-    <!-- GLOBAL-LOADER -->
-    <div id="global-loader">
-        <img src="../assets/images/loader.svg" class="loader-img" alt="Loader">
+    <!-- LEFT: pitch panel -->
+    <div class="panel-left">
+      <div class="brand">FileNest</div>
+
+      <div class="pitch">
+        <h1>Sell your files.<br /><em>Reach buyers worldwide.</em></h1>
+        <p>Join FileNest as a seller and turn your digital products, templates, and assets into a steady stream of income — with zero setup hassle.</p>
+
+        <ul class="perks">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><b>Instant storefront</b><span class="desc">Start listing your files the moment you sign up.</span></span>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><b>Secure payouts</b><span class="desc">Get paid safely and on time, every time.</span></span>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg>
+            <span><b>Global reach</b><span class="desc">Your files, in front of buyers around the world.</span></span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="foot-note">© {{ date('Y') }} FileNest. All rights reserved.</div>
     </div>
-    <!-- /GLOBAL-LOADER -->
 
-    <!-- PAGE -->
-    <div class="page">
-        <div class="page-main">
-            <!--app-content open-->
-            <div class=" mt-0">
-                <div class="">
+    <!-- RIGHT: form panel -->
+    <div class="panel-right">
+      <div class="card">
 
-                    <!-- CONTAINER -->
-                    <div class="main-container container">
-
-                        <!-- Row -->
-                        <div class="row ">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header border-bottom-0">
-                                        <div class="card-title">
-                                            <h1><b>Become a Seller</b></h1>
-                                            <p>Complete your seller profile to start selling digital products on FileNest.</p>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div id="wizard1">
-                                            <h3>Seller Information</h3>
-                                            <section>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Name</label>
-                                                    <input type="text" class="form-control required" placeholder="Name" data-field="name">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Email</label>
-                                                    <input type="email" class="form-control required"
-                                                        placeholder="Email Address" autocomplete="new-password" data-field="email">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Phone Number</label>
-                                                    <input type="number" class="form-control required" placeholder="Number" data-field="phone">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group mb-0">
-                                                    <label class="form-label">Address</label>
-                                                    <input type="text" class="form-control required" placeholder="Address" data-field="address">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </section>
-                                            <h3>Store Information</h3>
-                                             <section>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Store / Brand Name</label>
-                                                    <input type="text" class="form-control required" placeholder="Store / Brand Name" data-field="storename">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Store Logo <span class="text-muted">(Optional)</span></label>
-                                                    <input type="file" class="form-control" accept="image/*" data-field="storelogo">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Short Store Description <span class="text-muted">(Optional)</span></label>
-                                                    <textarea class="form-control" rows="3" placeholder="Tell buyers about your business" data-field="storedescription"></textarea>
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Business Category</label>
-                                                    <select class="form-select required" data-field="category">
-                                                        <option value="">Select Category</option>
-                                                        <option value="Software">Software</option>
-                                                        <option value="Templates">Templates</option>
-                                                        <option value="UI Kits">UI Kits</option>
-                                                        <option value="eBooks">eBooks</option>
-                                                        <option value="Courses">Courses</option>
-                                                        <option value="Graphics">Graphics</option>
-                                                        <option value="Music">Music</option>
-                                                        <option value="Video">Video</option>
-                                                        <option value="Other">Other</option>
-                                                    </select>
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Seller Username</label>
-                                                    <input type="text" class="form-control required" placeholder="Unique username" data-field="username">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Website <span class="text-muted">(Optional)</span></label>
-                                                    <input type="text" class="form-control" placeholder="https://yourwebsite.com" data-field="website">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Social Media Link <span class="text-muted">(Optional)</span></label>
-                                                    <input type="text" class="form-control" placeholder="https://instagram.com/yourstore" data-field="social">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Support Email <span class="text-muted">(Optional, defaults to your seller email)</span></label>
-                                                    <input type="email" class="form-control" placeholder="Support Email" autocomplete="new-password" data-field="supportemail">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group mb-0">
-                                                    <label class="form-label">Support Phone <span class="text-muted">(Optional)</span></label>
-                                                    <input type="number" class="form-control" placeholder="Support Phone" data-field="supportphone">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </section>
-                                            <h3>Verification &amp; Agreement</h3>
-                                            <section>
-                                                <h5 class="mb-3">Identity</h5>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">Government ID Upload</label>
-                                                    <input type="file" class="form-control required" accept="image/*,.pdf" data-field="govtid">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label">PAN / GST <span class="text-muted">(Optional, if targeting India)</span></label>
-                                                    <input type="text" class="form-control" placeholder="PAN / GST Number" data-field="pangst">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-
-                                                <h5 class="mb-3 mt-4">Payment</h5>
-                                                <div class="control-group form-group">
-                                                    <label class="form-label d-block">Preferred Payout Method</label>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input required" type="radio" name="payoutmethod" id="payoutUpi" value="UPI" data-field="payoutmethod">
-                                                        <label class="form-check-label" for="payoutUpi">UPI</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input required" type="radio" name="payoutmethod" id="payoutBank" value="Bank Transfer" data-field="payoutmethod">
-                                                        <label class="form-check-label" for="payoutBank">Bank Transfer</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input required" type="radio" name="payoutmethod" id="payoutPaypal" value="PayPal" data-field="payoutmethod">
-                                                        <label class="form-check-label" for="payoutPaypal">PayPal <span class="text-muted">(Future)</span></label>
-                                                    </div>
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group mb-0">
-                                                    <label class="form-label">UPI ID / Bank Details</label>
-                                                    <input type="text" class="form-control required" placeholder="UPI ID or Bank Account Details" data-field="payoutdetails">
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-
-                                                <h5 class="mb-3 mt-4">Agreement</h5>
-                                                <div class="control-group form-group">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input required" type="checkbox" name="agree_terms" id="agreeTerms" data-field="agree_terms">
-                                                        <label class="form-check-label" for="agreeTerms">I agree to the Seller Terms &amp; Conditions.</label>
-                                                    </div>
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                                <div class="control-group form-group mb-0">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input required" type="checkbox" name="agree_rights" id="agreeRights" data-field="agree_rights">
-                                                        <label class="form-check-label" for="agreeRights">I confirm that I own the rights to the products I upload.</label>
-                                                    </div>
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/Row -->
-
-                        
-                    </div>
-                    <!-- CONTAINER CLOSED -->
-                </div>
-            </div>
-            <!--app-content closed-->
+        <div class="card-top card-top-desktop">
+          <div class="card-heading">Become a seller</div>
+          <a href="{{ route('login') }}" class="signuplink">Log in</a>
         </div>
 
+        <div class="card-top card-top-mobile">
+          <div>
+            <div class="card-heading">FileNest</div>
+            <div class="card-subtext">Create your seller account and start selling.</div>
+          </div>
+          <a href="{{ route('login') }}" class="signuplink">Log in</a>
+        </div>
 
-        <!-- FOOTER -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row align-items-center flex-row-reverse">
-                    <div class="col-md-12 col-sm-12 text-center">
-                        Copyright © <span id="year"></span> <a href="javascript:void(0)">FileNest</a>.  <span
-                            class="fa fa-heart text-danger"></span> <a href="javascript:void(0)">  </a> All rights reserved.
-                    </div>
-                </div>
+        @if (session('status'))
+          <div class="fn-status">{{ session('status') }}</div>
+        @endif
+
+        <form method="POST" action="{{ route('seller.register') }}">
+          @csrf
+
+          <!-- Name -->
+          <div class="field-group">
+            <label class="field-label" for="name">Name</label>
+            <div class="field-wrap">
+              <input type="text"
+                     id="name"
+                     name="name"
+                     value="{{ old('name') }}"
+                     class="@error('name') fn-input-error @enderror"
+                     placeholder="Your full name"
+                     required
+                     autofocus
+                     autocomplete="name">
             </div>
-        </footer>
-        <!-- FOOTER END -->
+            @error('name')
+              <div class="fn-error">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <!-- Email -->
+          <div class="field-group">
+            <label class="field-label" for="email">Email</label>
+            <div class="field-wrap">
+              <input type="email"
+                     id="email"
+                     name="email"
+                     value="{{ old('email') }}"
+                     class="@error('email') fn-input-error @enderror"
+                     placeholder="you@example.com"
+                     required
+                     autocomplete="username">
+            </div>
+            @error('email')
+              <div class="fn-error">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <!-- Password -->
+          <div class="field-group">
+            <label class="field-label" for="password">Password</label>
+            <div class="field-wrap">
+              <input type="password"
+                     id="password"
+                     name="password"
+                     class="@error('password') fn-input-error @enderror"
+                     placeholder="Create a password"
+                     required
+                     autocomplete="new-password">
+              <button type="button" class="toggle-pass" onclick="togglePassword('password','eyeIcon1')">
+                <svg id="eyeIcon1" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            @error('password')
+              <div class="fn-error">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="field-group">
+            <label class="field-label" for="password_confirmation">Confirm Password</label>
+            <div class="field-wrap">
+              <input type="password"
+                     id="password_confirmation"
+                     name="password_confirmation"
+                     class="@error('password_confirmation') fn-input-error @enderror"
+                     placeholder="Re-enter your password"
+                     required
+                     autocomplete="new-password">
+              <button type="button" class="toggle-pass" onclick="togglePassword('password_confirmation','eyeIcon2')">
+                <svg id="eyeIcon2" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            @error('password_confirmation')
+              <div class="fn-error">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <button type="submit" class="submit-btn">Register as Seller</button>
+        </form>
+
+        <p class="fineprint">
+          Already registered?
+          <a href="{{ route('login') }}">Log in</a>
+        </p>
+      </div>
     </div>
 
-    <!-- BACK-TO-TOP -->
-    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+  </div>
 
-    <!-- JQUERY JS -->
-    <script src="../assets/js/jquery.min.js"></script>
-    <script>
-        // Fallback: if the local jQuery file above failed to load
-        // (wrong path / file not found), load it from a CDN instead.
-        if (typeof jQuery === "undefined") {
-            document.write('<script src="https://code.jquery.com/jquery-3.7.1.min.js"><\/script>');
-        }
-    </script>
-
-    <!-- BOOTSTRAP JS -->
-    <script src="../assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- SIDE-MENU JS-->
-    <script src="../assets/plugins/sidemenu/sidemenu.js"></script>
-
-<!-- TypeHead js -->
-<script src="../assets/plugins/bootstrap5-typehead/autocomplete.js"></script>
-    <script src="../assets/js/typehead.js"></script>
-
-    <!-- SIDEBAR JS -->
-    <script src="../assets/plugins/sidebar/sidebar.js"></script>
-
-    <!-- FORM WIZARD JS-->
-    <script src="../assets/plugins/formwizard/jquery.smartWizard.js"></script>
-    <script src="../assets/plugins/formwizard/fromwizard.js"></script>
-
-    <!-- INTERNAl Jquery.steps js -->
-    <script src="../assets/plugins/jquery-steps/jquery.steps.min.js"></script>
-    <script src="../assets/plugins/parsleyjs/parsley.min.js"></script>
-
-    <!-- Perfect SCROLLBAR JS-->
-    <script src="../assets/plugins/p-scroll/perfect-scrollbar.js"></script>
-    <script src="../assets/plugins/p-scroll/pscroll.js"></script>
-    <script src="../assets/plugins/p-scroll/pscroll-1.js"></script>
-
-    <!-- INTERNAL Accordion-Wizard-Form js-->
-    <script src="../assets/plugins/accordion-Wizard-Form/jquery.accordion-wizard.min.js"></script>
-    <script src="../assets/js/form-wizard.js"></script>
-
-    <!-- FILE UPLOADES JS -->
-    <script src="../assets/plugins/fileuploads/js/fileupload.js"></script>
-    <script src="../assets/plugins/fileuploads/js/file-upload.js"></script>
-
-    <!-- INTERNAL File-Uploads Js-->
-    <script src="../assets/plugins/fancyuploder/jquery.ui.widget.js"></script>
-    <script src="../assets/plugins/fancyuploder/jquery.fileupload.js"></script>
-    <script src="../assets/plugins/fancyuploder/jquery.iframe-transport.js"></script>
-    <script src="../assets/plugins/fancyuploder/jquery.fancy-fileupload.js"></script>
-    <script src="../assets/plugins/fancyuploder/fancy-uploader.js"></script>
-
-    <!-- Color Theme js -->
-    <script src="../assets/js/themeColors.js"></script>
-
-    <!-- Sticky js -->
-    <script src="../assets/js/sticky.js"></script>
-
-    <!-- CUSTOM JS -->
-    <script src="../assets/js/custom.js"></script>
-
-    <!-- SELLER FORM VALIDATION JS -->
-    <script>
-    (function ($) {
-        "use strict";
-
-        // Human readable "required" messages per field
-        function getRequiredMessage(field) {
-            switch (field) {
-                case "name": return "Please enter your name.";
-                case "email": return "Please enter your email.";
-                case "phone": return "Please enter your phone number.";
-                case "address": return "Please enter your address.";
-                case "storename": return "Please enter your store / brand name.";
-                case "category": return "Please select a business category.";
-                case "username": return "Please enter a seller username.";
-                case "govtid": return "Please upload a government ID for verification.";
-                case "payoutmethod": return "Please select a preferred payout method.";
-                case "payoutdetails": return "Please enter your UPI ID or bank details.";
-                case "agree_terms": return "You must agree to the Seller Terms & Conditions.";
-                case "agree_rights": return "You must confirm you own the rights to your products.";
-                default: return "This field is required.";
-            }
-        }
-
-        // Validate a single field, returns an error message string or "" if valid
-        function getFieldError($input) {
-            var field = $input.data("field");
-            var type = $input.attr("type");
-            var val = ($input.val() || "").toString().trim();
-            var isRequired = $input.hasClass("required") || $input.prop("required");
-
-            // Required checks (covers text, select, checkbox, radio, file)
-            if (isRequired) {
-                if (type === "checkbox" || type === "radio") {
-                    var name = $input.attr("name");
-                    var checked = name ? $input.closest("form,section,body").find('input[name="' + name + '"]:checked').length > 0 : $input.prop("checked");
-                    if (!checked) {
-                        return getRequiredMessage(field) || "Please select an option.";
-                    }
-                } else if (type === "file") {
-                    if (!$input.val()) {
-                        return getRequiredMessage(field) || "Please select a file.";
-                    }
-                } else if ($input.is("select")) {
-                    if (val === "") {
-                        return getRequiredMessage(field) || "Please select an option.";
-                    }
-                } else if (val === "") {
-                    return getRequiredMessage(field);
-                }
-            }
-
-            if (val === "") {
-                return "";
-            }
-
-            // Format specific validations
-            if (field === "email" || type === "email") {
-                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailPattern.test(val)) {
-                    return "Please enter a valid email address.";
-                }
-            }
-
-            if (field === "phone") {
-                if (!/^\d{10}$/.test(val.replace(/\D/g, ""))) {
-                    return "Please enter a valid 10-digit phone number.";
-                }
-            }
-
-            if (field === "username") {
-                if (!/^[a-zA-Z0-9_]{3,20}$/.test(val)) {
-                    return "Username should be 3-20 characters (letters, numbers, underscore only).";
-                }
-            }
-
-            if (field === "website" || field === "social") {
-                var urlPattern = /^(https?:\/\/)?[^\s]+\.[^\s]{2,}$/;
-                if (!urlPattern.test(val)) {
-                    return "Please enter a valid URL.";
-                }
-            }
-
-            if (field === "supportemail") {
-                var supportEmailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!supportEmailPattern.test(val)) {
-                    return "Please enter a valid support email.";
-                }
-            }
-
-            if (field === "supportphone") {
-                if (!/^\d{10}$/.test(val.replace(/\D/g, ""))) {
-                    return "Please enter a valid 10-digit phone number.";
-                }
-            }
-
-            return "";
-        }
-
-        function showFieldError($input, message) {
-            $input.addClass("is-invalid");
-            var $feedback = $input.nextAll(".invalid-feedback").first();
-            if (!$feedback.length) {
-                $feedback = $input.closest(".input-group, .control-group, .form-group").find(".invalid-feedback").first();
-            }
-            $feedback.text(message);
-        }
-
-        function clearFieldError($input) {
-            $input.removeClass("is-invalid");
-            var $feedback = $input.nextAll(".invalid-feedback").first();
-            if (!$feedback.length) {
-                $feedback = $input.closest(".input-group, .control-group, .form-group").find(".invalid-feedback").first();
-            }
-            $feedback.text("");
-        }
-
-        function validateAndMark($input) {
-            var message = getFieldError($input);
-            if (message) {
-                showFieldError($input, message);
-                return false;
-            }
-            clearFieldError($input);
-            return true;
-        }
-
-        function validateSection($section) {
-            var valid = true;
-            $section.find(".required, [required]").each(function () {
-                var $input = $(this);
-                if (!validateAndMark($input)) {
-                    valid = false;
-                }
-            });
-            return valid;
-        }
-
-        $(function () {
-            // Live clear/validate as the user types or changes a field
-            $("#wizard1").on("input change blur", ".required, [required]", function () {
-                validateAndMark($(this));
-            });
-        });
-
-        // We track the active step ourselves instead of guessing the wizard
-        // plugin's internal markup (href="#next", ".current" class, etc.),
-        // since that varies between wizard libraries and was not matching.
-        var $wizardSections = $("#wizard1 > section");
-        var currentStepIndex = 0;
-
-        function isWizardControl($el) {
-            if (!$el || !$el.length) return false;
-            if ($el.closest("#wizard1").length > 0) return true;
-            var $card = $el.closest(".card");
-            return $card.length > 0 && $card.find("#wizard1").length > 0;
-        }
-
-        function getButtonLabel($el) {
-            return $el.text().replace(/\s+/g, " ").trim().toLowerCase();
-        }
-
-        // Intercept clicks on Next / Finish controls (identified by their
-        // visible text, regardless of tag, href, or class) before the
-        // wizard plugin's own handler runs, using the capture phase.
-        document.addEventListener("click", function (e) {
-            var $origin = $(e.target);
-            var $clickable = $origin.closest('a, button, li, [role="menuitem"], [role="button"]');
-            if (!$clickable.length) {
-                return;
-            }
-            if (!isWizardControl($clickable)) {
-                return;
-            }
-
-            var label = getButtonLabel($clickable);
-            console.log("[wizard-validation] clicked:", $clickable.prop("tagName"), "| label:", label, "| step:", currentStepIndex);
-
-            var isNext = label.indexOf("next") !== -1;
-            var isFinish = label.indexOf("finish") !== -1 || label.indexOf("submit") !== -1;
-            var isPrev = label.indexOf("previous") !== -1 || label.indexOf("prev") !== -1 || label.indexOf("back") !== -1;
-
-            if (isNext || isFinish) {
-                var ok = validateSection($wizardSections.eq(currentStepIndex));
-                console.log("[wizard-validation] step valid?", ok);
-                if (!ok) {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    return false;
-                }
-                if (isNext && currentStepIndex < $wizardSections.length - 1) {
-                    currentStepIndex++;
-                }
-            } else if (isPrev) {
-                if (currentStepIndex > 0) {
-                    currentStepIndex--;
-                }
-            }
-        }, true);
-
-    })(jQuery);
-    </script>
+  <script>
+    function togglePassword(inputId, iconId){
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if(input.type === 'password'){
+        input.type = 'text';
+        icon.innerHTML = '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.5 21.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a21.5 21.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+      } else {
+        input.type = 'password';
+        icon.innerHTML = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>';
+      }
+    }
+  </script>
 
 </body>
 </html>

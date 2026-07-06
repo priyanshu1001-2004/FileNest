@@ -301,7 +301,7 @@
     body{ overflow: auto; }
     .screen{ height: auto; flex-direction: column; }
     .panel-left{ display: none; }
-    .panel-right{ max-width: 100%; flex: none; padding: 40px 24px 48px; }
+    .panel-right{ max-width: 100%; flex: none; padding: 40px 24px 200px; }
     .card-top-desktop{ display: none; }
     .card-top-mobile{ display: flex; }
   }

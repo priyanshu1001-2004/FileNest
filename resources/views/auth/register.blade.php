@@ -108,7 +108,7 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    padding: 150px 32px 32px;
+    padding: 80px 32px 30px;
     overflow-y: auto;
   }
   .card{
@@ -261,7 +261,7 @@
     body{ overflow: auto; }
     .screen{ height: auto; flex-direction: column; }
     .panel-left{ display: none; }
-    .panel-right{ max-width: 100%; flex: none; padding: 80px 24px 48px; }
+    .panel-right{ max-width: 100%; flex: none; padding: 80px 24px 15px; }
     .card-top-desktop{ display: none; }
     .card-top-mobile{ display: flex; }
   }

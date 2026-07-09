@@ -229,7 +229,7 @@
     body{ overflow: auto; }
     .screen{ height: auto; flex-direction: column; }
     .panel-left{ display: none; }
-    .panel-right{ max-width: 100%; flex: none; padding: 32px 24px 48px; }
+    .panel-right{ max-width: 100%; flex: none; padding: 32px 24px 50px; }
     .card-top-desktop{ display: none; }
     .card-top-mobile{ display: flex; }
   }

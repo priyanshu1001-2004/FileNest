@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role', 'status'])]
+#[Fillable(['name', 'email', 'password', 'role', 'status', 'avatar', 'phone'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -50,5 +50,10 @@ class User extends Authenticatable
     public function sellerDetail()
     {
         return $this->hasOne(SellerDetail::class);
+    }
+
+    public function buyerDetail()
+    {
+        return $this->hasOne(BuyerDetail::class, 'user_id');
     }
 }

@@ -10,7 +10,7 @@
                     <i class="fe fe-crop me-2 text-primary"></i>Adjust Layout Frame
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
-                    id="globalCropperCloseBtn"></button>
+                    id="globalCropperCloseBtn">x</button>
             </div>
             <div class="modal-body p-4" style="background: #13131a;">
                 <div class="row g-3 align-items-center">

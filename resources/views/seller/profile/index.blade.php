@@ -57,7 +57,7 @@
 
 @section('content')
 
-<div class="mt-5" id="data-table-container">
+<div class="mt-5" id="table-container">
     <div class="row row-sm">
         <div class="col-lg-12">
 
@@ -110,10 +110,21 @@
 
                         <div class="col-xl-7 col-lg-6 mt-3 mt-lg-0">
                             <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
-                                <h2 class="mb-0 fw-bold">PixelCraft Studio</h2>
-                                <span class="badge bg-success"><i class="fe fe-check-circle"></i> Verified Seller</span>
+                                <h2 class="mb-0 fw-bold text-body">{{ $seller->store_name ?? 'Set Your Store Name' }}
+                                </h2>
+
+                                @if($seller && $seller->is_verified)
+                                <span class="badge bg-success"><i class="fe fe-check-circle me-1"></i> Verified
+                                    Seller</span>
+                                @else
+                                <span class="badge bg-warning text-dark"><i class="fe fe-clock me-1"></i> Under
+                                    Review</span>
+                                @endif
                             </div>
-                            <p class="text-muted mb-3">Premium Laravel Projects, UI Kits, Templates & Digital Assets.
+
+                            <p class="text-muted mb-3">
+                                {{ $seller->store_tagline ?? 'Add a descriptive store tagline or vision benchmark
+                                statement using the Edit form below.' }}
                             </p>
                         </div>
                     </div>
@@ -145,27 +156,28 @@
                     <div class="row gy-4">
                         <div class="col-md-6">
                             <label class="text-muted small mb-1 d-block">Store Name</label>
-                            <h6 class="mb-0">PixelCraft Studio</h6>
+                            <h6 class="mb-0">{{ $seller->store_name ?? 'Not Set' }}</h6>
                         </div>
                         <div class="col-md-6">
                             <label class="text-muted small mb-1 d-block">Store Slug</label>
-                            <h6 class="mb-0">pixelcraft-studio</h6>
+                            <h6 class="mb-0 text-primary">{{ $seller->store_slug ?? 'not-configured' }}</h6>
                         </div>
                         <div class="col-md-6">
                             <label class="text-muted small mb-1 d-block">Store Tagline</label>
-                            <h6 class="mb-0">Premium Digital Products for Developers & Designers</h6>
+                            <h6 class="mb-0">{{ $seller->store_tagline ?? 'No tagline added yet.' }}</h6>
                         </div>
                         <div class="col-md-6">
                             <label class="text-muted small mb-1 d-block">Seller Type</label>
-                            <span class="badge bg-primary">Individual Seller</span>
+                            <span
+                                class="badge {{ ($seller->seller_type ?? 'individual') === 'business' ? 'bg-success' : 'bg-primary' }}">
+                                {{ ucfirst($seller->seller_type ?? 'individual') }} Seller
+                            </span>
                         </div>
                         <div class="col-12">
                             <label class="text-muted small mb-1 d-block">Store Description</label>
                             <p class="mb-0 text-muted">
-                                PixelCraft Studio specializes in premium Laravel projects, admin dashboards,
-                                website templates, source code, UI kits, AI tools, and other digital assets.
-                                Our mission is to deliver high-quality digital products that save developers
-                                and businesses valuable time.
+                                {{ $seller->store_description ?? 'Provide a short summary detailing your digital
+                                repository assets.' }}
                             </p>
                         </div>
                     </div>
@@ -183,26 +195,56 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @php
+                    // Dynamic Profile Completion Counter Engine
+                    $totalFields = 10;
+                    $filledFields = 0;
+
+                    if(!empty($seller->store_name)) $filledFields++;
+                    if(!empty($seller->store_tagline)) $filledFields++;
+                    if(!empty($seller->store_description)) $filledFields++;
+                    if(!empty($seller->company_name)) $filledFields++;
+                    if(!empty($seller->tax_number)) $filledFields++;
+                    if(!empty($seller->support_email)) $filledFields++;
+                    if(!empty($seller->website)) $filledFields++;
+                    if(!empty($seller->github_url) || !empty($seller->linkedin_url)) $filledFields++;
+                    if(!empty($seller->support_policy)) $filledFields++;
+                    if(!empty($seller->business_address)) $filledFields++;
+
+                    $percentage = min(100, max(20, round(($filledFields / $totalFields) * 100)));
+                    @endphp
+
                     <div class="d-flex justify-content-between mb-1">
                         <span class="text-muted small">Completion</span>
-                        <span class="fw-bold text-primary">92%</span>
+                        <span class="fw-bold text-primary">{{ $percentage }}%</span>
                     </div>
                     <div class="progress mb-4" style="height:7px;">
-                        <div class="progress-bar bg-primary" style="width:92%;"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $percentage }}%;"
+                            aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
 
                     <ul class="list-unstyled mb-0">
                         <li class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-muted small">Verification</span>
-                            <span class="badge bg-success">Verified</span>
+                            @if($seller && $seller->is_verified)
+                            <span class="badge bg-success"><i class="fe fe-check me-1"></i>Verified</span>
+                            @else
+                            <span class="badge bg-warning text-dark"><i class="fe fe-clock me-1"></i>Pending</span>
+                            @endif
                         </li>
                         <li class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-muted small">Member Since</span>
-                            <strong class="small">July 05, 2026</strong>
+                            <strong class="small text-body">
+                                {{ $seller && $seller->created_at ? $seller->created_at->format('M d, Y') :
+                                now()->format('M d, Y') }}
+                            </strong>
                         </li>
                         <li class="d-flex justify-content-between align-items-center">
                             <span class="text-muted small">Last Updated</span>
-                            <strong class="small">July 15, 2026</strong>
+                            <strong class="small text-body">
+                                {{ $seller && $seller->updated_at ? $seller->updated_at->format('M d, Y') :
+                                now()->format('M d, Y') }}
+                            </strong>
                         </li>
                     </ul>
                 </div>
@@ -222,33 +264,41 @@
                             <small class="text-muted">Used for seller verification</small>
                         </div>
                     </div>
-                    <button class="btn btn-outline-primary btn-sm"><i class="fe fe-edit"></i> Edit</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#businessInfoModal">
+                        <i class="fe fe-edit"></i> Edit
+                    </button>
                 </div>
                 <div class="card-body">
                     <div class="row gy-4">
                         <div class="col-md-6">
                             <label class="text-muted small d-block mb-1">Company Name</label>
-                            <div class="fw-semibold">PixelCraft Technologies</div>
+                            <div class="fw-semibold">{{ $seller->company_name ?? 'Not Set' }}</div>
                         </div>
                         <div class="col-md-6">
                             <label class="text-muted small d-block mb-1">Tax / GST Number</label>
-                            <div class="fw-semibold">GSTIN22ABCDE1234F1Z5</div>
+                            <div class="fw-semibold">{{ $seller->tax_number ?? 'Not Provided' }}</div>
                         </div>
                         <div class="col-md-6">
                             <label class="text-muted small d-block mb-1">Seller Type</label>
-                            <span class="badge bg-primary">Individual Seller</span>
+                            <span
+                                class="badge {{ ($seller->seller_type ?? 'individual') === 'business' ? 'bg-success' : 'bg-primary' }}">
+                                {{ ucfirst($seller->seller_type ?? 'individual') }} Seller
+                            </span>
                         </div>
                         <div class="col-md-6">
                             <label class="text-muted small d-block mb-1">Verification Status</label>
-                            <span class="badge bg-success"><i class="fe fe-check-circle"></i> Verified</span>
+                            @if($seller && $seller->is_verified)
+                            <span class="badge bg-success"><i class="fe fe-check-circle me-1"></i> Verified</span>
+                            @else
+                            <span class="badge bg-warning text-dark"><i class="fe fe-alert-circle me-1"></i> Pending
+                                Verification</span>
+                            @endif
                         </div>
                         <div class="col-12">
                             <label class="text-muted small d-block mb-1">Business Address</label>
-                            <div class="fw-semibold">
-                                221B Business Street,<br>
-                                New Delhi, Delhi - 110001,<br>
-                                India
-                            </div>
+                            <div class="fw-semibold text-muted" style="white-space: pre-line;">{{
+                                $seller->business_address ?? 'No address registered.' }}</div>
                         </div>
                     </div>
                 </div>
@@ -265,21 +315,37 @@
                             <small class="text-muted">Visible to buyers</small>
                         </div>
                     </div>
-                    <button class="btn btn-outline-primary btn-sm"><i class="fe fe-edit"></i> Edit</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#contactInfoModal">
+                        <i class="fe fe-edit"></i> Edit
+                    </button>
                 </div>
                 <div class="card-body">
                     <div class="row gy-4">
                         <div class="col-md-6">
                             <label class="text-muted small d-block mb-1">Support Email</label>
-                            <div class="fw-semibold">support@pixelcraft.com</div>
+                            <div class="fw-semibold">{{ $seller->support_email ?? 'Not Set' }}</div>
                         </div>
                         <div class="col-md-6">
                             <label class="text-muted small d-block mb-1">Website</label>
-                            <a href="#" class="text-primary fw-semibold">pixelcraft.com</a>
+                            @if(!empty($seller->website))
+                            <a href="{{ $seller->website }}" target="_blank"
+                                class="text-primary fw-semibold d-block text-truncate">{{ parse_url($seller->website,
+                                PHP_URL_HOST) ?? $seller->website }}</a>
+                            @else
+                            <div class="text-muted small fw-semibold">No URL Link</div>
+                            @endif
                         </div>
                         <div class="col-md-6">
-                            <label class="text-muted small d-block mb-1">Public Email</label>
-                            <div class="fw-semibold">hello@pixelcraft.com</div>
+                            <label class="text-muted small d-block mb-1">Location Details</label>
+                            <div class="fw-semibold text-muted">
+                                @if(!empty($seller->city) || !empty($seller->country))
+                                {{ filter_var(implode(', ', array_filter([$seller->city, $seller->state,
+                                $seller->country])), FILTER_DEFAULT) }}
+                                @else
+                                No Location Set
+                                @endif
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label class="text-muted small d-block mb-1">Response Time</label>
@@ -303,30 +369,31 @@
                             <small class="text-muted">Support, refund & licensing</small>
                         </div>
                     </div>
-                    <button class="btn btn-outline-primary btn-sm"><i class="fe fe-edit"></i> Edit</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#storePoliciesModal">
+                        <i class="fe fe-edit"></i> Edit
+                    </button>
                 </div>
                 <div class="card-body">
                     <label class="text-muted small d-block mb-2">Support Policy</label>
-                    <div class="policy-block mb-3">
+                    <div class="policy-block mb-3" style="white-space: pre-line;">
                         <i class="fe fe-life-buoy"></i>
-                        We provide free technical support for all purchased products for up to 6 months.
-                        Support is available Monday to Friday during business hours. Custom feature requests
-                        and third-party modifications are not included.
+                        {{ $seller->support_policy ?? 'We provide professional technical support for all our digital
+                        products. Please update this field to outline your support hours and inclusions.' }}
                     </div>
 
                     <label class="text-muted small d-block mb-2">Refund Policy</label>
-                    <div class="policy-block mb-3">
+                    <div class="policy-block mb-3" style="white-space: pre-line;">
                         <i class="fe fe-rotate-ccw"></i>
-                        Refund requests are accepted within 7 days of purchase if the product is defective
-                        or cannot be downloaded. Refunds are not available for accidental purchases or
-                        change of mind.
+                        {{ $seller->refund_policy ?? 'Refund requests are subject to evaluation based on file
+                        eligibility. Update this policy to establish terms regarding digital product returns.' }}
                     </div>
 
                     <label class="text-muted small d-block mb-2">License Information</label>
-                    <div class="policy-block">
+                    <div class="policy-block" style="white-space: pre-line;">
                         <i class="fe fe-shield"></i>
-                        All products are licensed for personal and commercial use unless otherwise stated.
-                        Redistribution, resale, or sharing of purchased files is strictly prohibited.
+                        {{ $seller->license_information ?? 'All digital source files are protected by licensing
+                        frameworks. Specify your developer terms, multi-use, or deployment constraints here.' }}
                     </div>
                 </div>
             </div>
@@ -342,53 +409,100 @@
                             <small class="text-muted">Connect buyers to your work</small>
                         </div>
                     </div>
-                    <button class="btn btn-outline-primary btn-sm"><i class="fe fe-edit"></i> Edit</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#socialLinksModal">
+                        <i class="fe fe-edit"></i> Edit
+                    </button>
                 </div>
                 <div class="card-body">
 
-                    <div class="social-item">
-                        <span class="social-badge" style="background:#1f2328;"><i
+                    <div class="social-item mb-3 d-flex align-items-center gap-3">
+                        <span
+                            class="social-badge d-inline-flex align-items-center justify-content-center rounded-circle"
+                            style="background:#1f2328; width: 36px; height: 36px;"><i
                                 class="fe fe-github text-white"></i></span>
                         <div>
                             <small class="text-muted d-block">GitHub</small>
-                            <a href="#" class="text-dark fw-semibold">github.com/pixelcraft</a>
+                            @if(!empty($seller->github_url))
+                            <a href="{{ $seller->github_url }}" target="_blank"
+                                class="text-reset fw-semibold text-break">{{ parse_url($seller->github_url,
+                                PHP_URL_PATH) ? 'github.com' . parse_url($seller->github_url, PHP_URL_PATH) :
+                                $seller->github_url }}</a>
+                            @else
+                            <span class="text-muted small fw-normal">Not Linked</span>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="social-item">
-                        <span class="social-badge" style="background:#ff0000;"><i
+                    <div class="social-item mb-3 d-flex align-items-center gap-3">
+                        <span
+                            class="social-badge d-inline-flex align-items-center justify-content-center rounded-circle"
+                            style="background:#ff0000; width: 36px; height: 36px;"><i
                                 class="fe fe-youtube text-white"></i></span>
                         <div>
                             <small class="text-muted d-block">YouTube</small>
-                            <a href="#" class="text-danger fw-semibold">youtube.com/@pixelcraft</a>
+                            @if(!empty($seller->youtube_url))
+                            <a href="{{ $seller->youtube_url }}" target="_blank"
+                                class="text-danger fw-semibold text-break">{{ parse_url($seller->youtube_url,
+                                PHP_URL_PATH) ? 'youtube.com' . parse_url($seller->youtube_url, PHP_URL_PATH) :
+                                $seller->youtube_url }}</a>
+                            @else
+                            <span class="text-muted small fw-normal">Not Linked</span>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="social-item">
-                        <span class="social-badge" style="background:#0a66c2;"><i
+                    <div class="social-item mb-3 d-flex align-items-center gap-3">
+                        <span
+                            class="social-badge d-inline-flex align-items-center justify-content-center rounded-circle"
+                            style="background:#0a66c2; width: 36px; height: 36px;"><i
                                 class="fe fe-linkedin text-white"></i></span>
                         <div>
                             <small class="text-muted d-block">LinkedIn</small>
-                            <a href="#" class="text-primary fw-semibold">linkedin.com/company/pixelcraft</a>
+                            @if(!empty($seller->linkedin_url))
+                            <a href="{{ $seller->linkedin_url }}" target="_blank"
+                                class="text-primary fw-semibold text-break">{{ parse_url($seller->linkedin_url,
+                                PHP_URL_PATH) ? 'linkedin.com' . parse_url($seller->linkedin_url, PHP_URL_PATH) :
+                                $seller->linkedin_url }}</a>
+                            @else
+                            <span class="text-muted small fw-normal">Not Linked</span>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="social-item">
-                        <span class="social-badge"
-                            style="background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af);"><i
+                    <div class="social-item mb-3 d-flex align-items-center gap-3">
+                        <span
+                            class="social-badge d-inline-flex align-items-center justify-content-center rounded-circle"
+                            style="background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af); width: 36px; height: 36px;"><i
                                 class="fe fe-instagram text-white"></i></span>
                         <div>
                             <small class="text-muted d-block">Instagram</small>
-                            <a href="#" class="text-danger fw-semibold">@pixelcraftstudio</a>
+                            @if(!empty($seller->instagram_url))
+                            <a href="{{ $seller->instagram_url }}" target="_blank"
+                                class="text-danger fw-semibold text-break">{{ parse_url($seller->instagram_url,
+                                PHP_URL_PATH) ? '@' . basename(parse_url($seller->instagram_url, PHP_URL_PATH)) :
+                                $seller->instagram_url }}</a>
+                            @else
+                            <span class="text-muted small fw-normal">Not Linked</span>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="social-item">
-                        <span class="social-badge" style="background:#1da1f2;"><i
+                    <div class="social-item d-flex align-items-center gap-3">
+                        <span
+                            class="social-badge d-inline-flex align-items-center justify-content-center rounded-circle"
+                            style="background:#1da1f2; width: 36px; height: 36px;"><i
                                 class="fe fe-twitter text-white"></i></span>
                         <div>
                             <small class="text-muted d-block">Twitter / X</small>
-                            <a href="#" class="text-dark fw-semibold">@pixelcraft</a>
+                            @if(!empty($seller->twitter_url))
+                            <a href="{{ $seller->twitter_url }}" target="_blank"
+                                class="text-reset fw-semibold text-break">{{ parse_url($seller->twitter_url,
+                                PHP_URL_PATH) ? '@' . basename(parse_url($seller->twitter_url, PHP_URL_PATH)) :
+                                $seller->twitter_url }}</a>
+                            @else
+                            <span class="text-muted small fw-normal">Not Linked</span>
+                            @endif
                         </div>
                     </div>
 
@@ -544,7 +658,7 @@
                 <div class="modal-header border-bottom">
                     <h5 class="modal-title fw-bold"><i class="fe fe-shopping-bag me-2 text-primary"></i>Store
                         Information</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
@@ -582,41 +696,48 @@
                 <input type="hidden" name="tab_name" value="business_info">
 
                 <div class="modal-header border-bottom">
-                    <h5 class="modal-title fw-bold"><i class="fe fe-briefcase me-2 text-primary"></i>Business Details
+                    <h5 class="modal-title fw-bold">
+                        <i class="fe fe-briefcase me-2 text-primary"></i>Modify Business Details
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
                 </div>
+
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Seller Type</label>
+                            <label class="form-label fw-semibold">Seller Operational Type</label>
                             <select name="seller_type" class="form-select">
-                                <option value="individual" {{ ($seller->seller_type ?? '') === 'individual' ? 'selected'
-                                    : '' }}>Individual Seller</option>
+                                <option value="individual" {{ ($seller->seller_type ?? 'individual') === 'individual' ?
+                                    'selected' : '' }}>Individual Seller</option>
                                 <option value="business" {{ ($seller->seller_type ?? '') === 'business' ? 'selected' :
-                                    '' }}>Business Entity</option>
+                                    '' }}>Business Entity / Corporation</option>
                             </select>
                         </div>
+
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Company Name</label>
                             <input type="text" name="company_name" class="form-control"
-                                value="{{ $seller->company_name ?? '' }}">
+                                value="{{ $seller->company_name ?? '' }}"
+                                placeholder="e.g., PixelCraft Technologies Private Limited">
                         </div>
-                        <div class="col-12">
-                            <label class="form-label fw-semibold">Tax / GST Number</label>
+
+                        <div class="col-md-12">
+                            <label class="form-label fw-semibold">Tax / GST Identification Number</label>
                             <input type="text" name="tax_number" class="form-control"
-                                value="{{ $seller->tax_number ?? '' }}">
+                                value="{{ $seller->tax_number ?? '' }}" placeholder="e.g., GSTIN22ABCDE1234F1Z5">
                         </div>
+
                         <div class="col-12">
-                            <label class="form-label fw-semibold">Business Address</label>
-                            <textarea name="business_address" class="form-control"
-                                rows="3">{{ $seller->business_address ?? '' }}</textarea>
+                            <label class="form-label fw-semibold">Registered Business Address</label>
+                            <textarea name="business_address" class="form-control" rows="4"
+                                placeholder="Enter the complete operational layout address details...">{{ $seller->business_address ?? '' }}</textarea>
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-footer border-top">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary px-4">Update Business</button>
+                    <button type="submit" class="btn btn-primary px-4">Update Details</button>
                 </div>
             </form>
         </div>
@@ -631,36 +752,49 @@
                 <input type="hidden" name="tab_name" value="contact_info">
 
                 <div class="modal-header border-bottom">
-                    <h5 class="modal-title fw-bold"><i class="fe fe-mail me-2 text-primary"></i>Contact Layout</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title fw-bold">
+                        <i class="fe fe-mail me-2 text-primary"></i>Modify Contact Layout
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
                 </div>
+
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Support Email <span
                                     class="text-danger">*</span></label>
                             <input type="email" name="support_email" class="form-control"
-                                value="{{ $seller->support_email ?? '' }}" required>
+                                value="{{ $seller->support_email ?? '' }}" required
+                                placeholder="e.g., support@yourdomain.com">
+                            <div class="invalid-feedback">Please enter a valid support email address.</div>
                         </div>
+
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Website Link</label>
                             <input type="url" name="website" class="form-control" value="{{ $seller->website ?? '' }}"
-                                placeholder="https://example.com">
+                                placeholder="https://yourdomain.com">
                         </div>
+
                         <div class="col-md-4">
                             <label class="form-label fw-semibold">Country</label>
-                            <input type="text" name="country" class="form-control" value="{{ $seller->country ?? '' }}">
+                            <input type="text" name="country" class="form-control" value="{{ $seller->country ?? '' }}"
+                                placeholder="e.g., India">
                         </div>
+
                         <div class="col-md-4">
                             <label class="form-label fw-semibold">State</label>
-                            <input type="text" name="state" class="form-control" value="{{ $seller->state ?? '' }}">
+                            <input type="text" name="state" class="form-control" value="{{ $seller->state ?? '' }}"
+                                placeholder="e.g., Delhi">
                         </div>
+
                         <div class="col-md-4">
                             <label class="form-label fw-semibold">City</label>
-                            <input type="text" name="city" class="form-control" value="{{ $seller->city ?? '' }}">
+                            <input type="text" name="city" class="form-control" value="{{ $seller->city ?? '' }}"
+                                placeholder="e.g., New Delhi">
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-footer border-top">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary px-4">Save Contacts</button>
@@ -678,29 +812,34 @@
                 <input type="hidden" name="tab_name" value="store_policies">
 
                 <div class="modal-header border-bottom">
-                    <h5 class="modal-title fw-bold"><i class="fe fe-shield me-2 text-primary"></i>Store Guidelines &
-                        Terms</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title fw-bold">
+                        <i class="fe fe-file-text me-2 text-primary"></i>Edit Store Guidelines & Policies
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
                 </div>
+
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-12">
                             <label class="form-label fw-semibold">Support Policy</label>
-                            <textarea name="support_policy" class="form-control"
-                                rows="3">{{ $seller->support_policy ?? '' }}</textarea>
+                            <textarea name="support_policy" class="form-control" rows="4"
+                                placeholder="Detail your technical support criteria, active channels, and business hour windows...">{{ $seller->support_policy ?? '' }}</textarea>
                         </div>
+
                         <div class="col-12">
                             <label class="form-label fw-semibold">Refund Policy</label>
-                            <textarea name="refund_policy" class="form-control"
-                                rows="3">{{ $seller->refund_policy ?? '' }}</textarea>
+                            <textarea name="refund_policy" class="form-control" rows="4"
+                                placeholder="Outline clear rules regarding cancellations, change of mind, or defective digital deliverables...">{{ $seller->refund_policy ?? '' }}</textarea>
                         </div>
+
                         <div class="col-12">
                             <label class="form-label fw-semibold">License Information</label>
-                            <textarea name="license_information" class="form-control"
-                                rows="3">{{ $seller->license_information ?? '' }}</textarea>
+                            <textarea name="license_information" class="form-control" rows="4"
+                                placeholder="State restrictions regarding code redistribution, personal versus commercial deployment usage...">{{ $seller->license_information ?? '' }}</textarea>
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-footer border-top">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary px-4">Apply Policies</button>
@@ -718,45 +857,49 @@
                 <input type="hidden" name="tab_name" value="social_links">
 
                 <div class="modal-header border-bottom">
-                    <h5 class="modal-title fw-bold"><i class="fe fe-link me-2 text-primary"></i>Social Sync Registry
+                    <h5 class="modal-title fw-bold">
+                        <i class="fe fe-link me-2 text-primary"></i>Sync Social Profiles
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
                 </div>
+
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">GitHub Profile</label>
+                            <label class="form-label fw-semibold">GitHub URL</label>
                             <input type="url" name="github_url" class="form-control"
-                                value="{{ $seller->github_url ?? '' }}" placeholder="https://github.com/username">
+                                value="{{ $seller->github_url ?? '' }}" placeholder="https://github.com/your-username">
                         </div>
+
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">YouTube Channel</label>
+                            <label class="form-label fw-semibold">YouTube Channel URL</label>
                             <input type="url" name="youtube_url" class="form-control"
-                                value="{{ $seller->youtube_url ?? '' }}" placeholder="https://youtube.com/@channel">
+                                value="{{ $seller->youtube_url ?? '' }}"
+                                placeholder="https://youtube.com/@your-channel">
                         </div>
+
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">LinkedIn Profile</label>
+                            <label class="form-label fw-semibold">LinkedIn Profile URL</label>
                             <input type="url" name="linkedin_url" class="form-control"
                                 value="{{ $seller->linkedin_url ?? '' }}"
-                                placeholder="https://linkedin.com/in/username">
+                                placeholder="https://linkedin.com/in/your-username">
                         </div>
+
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Instagram Handler</label>
+                            <label class="form-label fw-semibold">Instagram Profile URL</label>
                             <input type="url" name="instagram_url" class="form-control"
-                                value="{{ $seller->instagram_url ?? '' }}" placeholder="https://instagram.com/username">
+                                value="{{ $seller->instagram_url ?? '' }}"
+                                placeholder="https://instagram.com/your-username">
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold">Twitter / X Profile</label>
+
+                        <div class="col-md-12">
+                            <label class="form-label fw-semibold">Twitter / X URL</label>
                             <input type="url" name="twitter_url" class="form-control"
-                                value="{{ $seller->twitter_url ?? '' }}" placeholder="https://x.com/username">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold">General Portfolio URL</label>
-                            <input type="url" name="portfolio_url" class="form-control"
-                                value="{{ $seller->portfolio_url ?? '' }}" placeholder="https://myportfolio.com">
+                                value="{{ $seller->twitter_url ?? '' }}" placeholder="https://x.com/your-username">
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-footer border-top">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary px-4">Link Profiles</button>

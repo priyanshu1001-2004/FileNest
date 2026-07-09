@@ -57,6 +57,7 @@
         <i class="fa fa-angle-up"></i>
     </a>
     
+    @include('components.cropper')
     @include('layouts.js')
 
 </body>

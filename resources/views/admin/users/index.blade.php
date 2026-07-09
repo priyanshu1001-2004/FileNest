@@ -18,7 +18,7 @@
                 <!-- // Users Statistics Cards -->
                 <div class="row mt-5 px-5">
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
-                        <div class="card bg-primary img-card box-primary-shadow border-0 rounded-4">
+                        <div class="card bg-primary img-card  border-0 rounded-4">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="text-white">
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
-                        <div class="card bg-info img-card box-info-shadow border-0 rounded-4">
+                        <div class="card bg-info img-card  border-0 rounded-4">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="text-white">
@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
-                        <div class="card bg-warning img-card box-warning-shadow border-0 rounded-4">
+                        <div class="card bg-warning img-card  border-0 rounded-4">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="text-white">
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
-                        <div class="card bg-success img-card box-success-shadow border-0 rounded-4">
+                        <div class="card bg-success img-card  border-0 rounded-4">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="text-white">
@@ -229,7 +229,7 @@
 {{-- Edit Modal --}}
 <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4 border-0 shadow-lg">
+        <div class="modal-content rounded-4 border-0 ">
             <div class="modal-header border-0 pt-4 px-4">
                 <div>
                     <h5 class="modal-title fw-bold">

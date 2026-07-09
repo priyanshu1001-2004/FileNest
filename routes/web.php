@@ -41,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware([SellerMiddleware::class])->prefix('seller')->name('seller.')->group(function () {
         Route::get('/dashboard', [SellerController::class, 'dashboard'])->name('dashboard');
         Route::get('/profile', [SellerProfileController::class, 'index'])->name('profile.index');
+        Route::put('/profile/update', [SellerProfileController::class, 'update'])->name('profile.update');
     });
 
     Route::middleware([BuyerMiddleware::class])->prefix('buyer')->name('buyer.')->group(function () {

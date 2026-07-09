@@ -69,9 +69,12 @@
 <script src="{{ asset('assets/js/themeColors.js') }}"></script>
 
 <!-- CUSTOM JS -->
+>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 <script src="{{ asset('assets/switcher/js/switcher.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
 
 <!-- ============================================ -->
 <!-- MAIN APPLICATION SCRIPT -->
@@ -624,6 +627,177 @@
         });
     });
 
+    /* ==========================================================
+   GLOBAL IMAGE CROPPER
+   ========================================================== */
+
+    const ImageCropper = {
+
+        cropper: null,
+        currentInput: null,
+
+        presets: {
+
+            profile: {
+                aspectRatio: 1,
+                width: 400,
+                height: 400
+            },
+
+            banner: {
+                aspectRatio: 3,
+                width: 1500,
+                height: 500
+            },
+
+            thumbnail: {
+                aspectRatio: 16 / 9,
+                width: 1200,
+                height: 675
+            },
+
+            logo: {
+                aspectRatio: 1,
+                width: 500,
+                height: 500
+            }
+
+        },
+
+        init: function () {
+
+            const self = this;
+
+            $(document).on("change", ".image-cropper", function (e) {
+
+                let input = this;
+
+                if (!input.files.length)
+                    return;
+
+                self.currentInput = input;
+
+                let presetName = $(input).data("preset");
+
+                let config = self.presets[presetName];
+
+                if (!config) {
+
+                    alert("Invalid crop preset.");
+
+                    return;
+
+                }
+
+                let reader = new FileReader();
+
+                reader.onload = function (event) {
+
+                    $("#cropperImage").attr("src", event.target.result);
+
+                    let modal = new bootstrap.Modal(document.getElementById("imageCropperModal"));
+
+                    modal.show();
+
+                    $("#imageCropperModal").off("shown.bs.modal").on("shown.bs.modal", function () {
+
+                        if (self.cropper)
+                            self.cropper.destroy();
+
+                        self.cropper = new Cropper(document.getElementById("cropperImage"), {
+
+                            aspectRatio: config.aspectRatio,
+
+                            viewMode: 1,
+
+                            autoCropArea: 1,
+
+                            responsive: true,
+
+                            movable: true,
+
+                            zoomable: true,
+
+                            scalable: false,
+
+                            rotatable: false
+
+                        });
+
+                    });
+
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+            });
+
+            $("#cropImageBtn").on("click", function () {
+
+                self.crop();
+
+            });
+
+        },
+
+        crop: function () {
+
+            let input = $(this.currentInput);
+
+            let preset = this.presets[input.data("preset")];
+
+            let preview = input.data("preview");
+
+            if (!this.cropper)
+                return;
+
+            let canvas = this.cropper.getCroppedCanvas({
+
+                width: preset.width,
+
+                height: preset.height
+
+            });
+
+            let base64 = canvas.toDataURL("image/jpeg", 0.9);
+
+            if (preview) {
+
+                $(preview).attr("src", base64);
+
+            }
+
+            canvas.toBlob(function (blob) {
+
+                let file = new File([blob], "image.jpg", {
+
+                    type: "image/jpeg"
+
+                });
+
+                let dt = new DataTransfer();
+
+                dt.items.add(file);
+
+                input[0].files = dt.files;
+
+            });
+
+            bootstrap.Modal.getInstance(document.getElementById("imageCropperModal")).hide();
+
+            this.cropper.destroy();
+
+            this.cropper = null;
+
+        }
+
+    };
+
+    $(function () {
+
+        ImageCropper.init();
+
+    });
 
 
 </script>

@@ -16,6 +16,7 @@
 <link href="{{ asset('assets/css/skin-modes.css') }}" rel="stylesheet" />
 <link href="{{ asset('assets/css/transparent-style.css') }}" rel="stylesheet">
 
+
 <!-- FONT ICONS CSS -->
 <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" />
 
@@ -27,6 +28,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 
 
 

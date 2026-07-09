@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\SellerDetail;
 use Illuminate\Support\Str;
@@ -21,27 +20,24 @@ class SellerProfileController extends Controller
     public function update(Request $request)
     {
         try {
-            // Identify active tab context from standard request body
             $tab = $request->input('tab_name');
-
             $user = auth()->user();
+
             if (!$user) {
-                return response()->json(['success' => false, 'message' => 'Unauthenticated access attempt.'], 401);
+                return response()->json(['success' => false, 'message' => 'Unauthenticated access.'], 401);
             }
 
-            // Fetch seller profile row or create it instantly on the fly
-            $seller = $user->SellerDetail ?: SellerDetail::create(['user_id' => $user->id]);
+            // Fetch or dynamically initialize the seller profile context
+            $seller = $user->sellerDetail ?: SellerDetail::create(['user_id' => $user->id]);
 
             switch ($tab) {
                 case 'logo':
                 case 'banner':
-                    // Extract payload using pure text decoding to bypass temporary folder limits
                     $base64Image = $request->input('image_data');
                     if (empty($base64Image)) {
                         return response()->json(['success' => false, 'message' => 'No image data string received.'], 422);
                     }
 
-                    // Strip metadata signature safely
                     $extension = 'jpg';
                     if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $matches)) {
                         $extension = $matches[1];
@@ -50,48 +46,84 @@ class SellerProfileController extends Controller
 
                     $decodedData = base64_decode($base64Image);
                     if ($decodedData === false) {
-                        return response()->json(['success' => false, 'message' => 'Data stream corruption detected.'], 422);
+                        return response()->json(['success' => false, 'message' => 'Data corruption detected.'], 422);
                     }
 
-                    // Purge old asset files from the public storage disk
-                    $oldPath = ($tab === 'banner') ? $seller->store_banner : $seller->store_logo;
+                    // Disk Cleanup Layer
+                    $oldPath = ($tab === 'banner' ? $seller->store_banner : $seller->store_logo);
                     if (!empty($oldPath) && Storage::disk('public')->exists($oldPath)) {
                         Storage::disk('public')->delete($oldPath);
                     }
 
-                    // Write new asset clean payload parameters
                     $filename = 'seller_' . $tab . '_' . Str::random(12) . '.' . $extension;
                     $path = 'uploads/profile/' . $filename;
                     Storage::disk('public')->put($path, $decodedData);
 
-                    // Map path update directly back to model attributes
                     $seller->update([($tab === 'banner' ? 'store_banner' : 'store_logo') => $path]);
 
                     return response()->json([
                         'success' => true,
-                        'message' => ucfirst($tab) . ' profile asset synchronized successfully!',
+                        'message' => ucfirst($tab) . ' updated successfully!',
                         'path' => asset('storage/' . $path)
                     ]);
 
-                case 'basic':
+                case 'store_info':
                     $validated = $request->validate([
-                        'store_name' => 'required|string|max:100',
-                        'store_headline' => 'nullable|string|max:255',
+                        'store_name' => 'required|string|max:100|unique:seller_details,store_name,' . $seller->id,
+                        'store_tagline' => 'nullable|string|max:255',
+                        'store_description' => 'nullable|string',
                     ]);
 
-                    $seller->update($validated);
-                    return response()->json(['success' => true, 'message' => 'Basic profile details modified.']);
+                    // Auto-compute unique slug parameter directly from name configurations dynamically
+                    $validated['store_slug'] = Str::slug($request->input('store_name'));
 
-                case 'terms':
+                    $seller->update($validated);
+                    return response()->json(['success' => true, 'message' => 'Store layout updated cleanly!']);
+
+                case 'business_info':
                     $validated = $request->validate([
-                        'terms_conditions' => 'required|string|min:10',
+                        'seller_type' => 'required|in:individual,business',
+                        'company_name' => 'nullable|string|max:150',
+                        'tax_number' => 'nullable|string|max:100',
+                        'business_address' => 'nullable|string',
                     ]);
-
                     $seller->update($validated);
-                    return response()->json(['success' => true, 'message' => 'Terms updates saved successfully.']);
+                    return response()->json(['success' => true, 'message' => 'Business matrix updated!']);
+
+                case 'contact_info':
+                    $validated = $request->validate([
+                        'support_email' => 'required|email|max:150',
+                        'website' => 'nullable|url|max:255',
+                        'country' => 'nullable|string|max:100',
+                        'state' => 'nullable|string|max:100',
+                        'city' => 'nullable|string|max:100',
+                    ]);
+                    $seller->update($validated);
+                    return response()->json(['success' => true, 'message' => 'Geographic mapping updated!']);
+
+                case 'store_policies':
+                    $validated = $request->validate([
+                        'support_policy' => 'nullable|string',
+                        'refund_policy' => 'nullable|string',
+                        'license_information' => 'nullable|string',
+                    ]);
+                    $seller->update($validated);
+                    return response()->json(['success' => true, 'message' => 'Policies saved flawlessly!']);
+
+                case 'social_links':
+                    $validated = $request->validate([
+                        'github_url' => 'nullable|url',
+                        'youtube_url' => 'nullable|url',
+                        'linkedin_url' => 'nullable|url',
+                        'instagram_url' => 'nullable|url',
+                        'twitter_url' => 'nullable|url',
+                        'portfolio_url' => 'nullable|url',
+                    ]);
+                    $seller->update($validated);
+                    return response()->json(['success' => true, 'message' => 'Social matrix profiles linked!']);
 
                 default:
-                    return response()->json(['success' => false, 'message' => 'Invalid tab action context requested.'], 400);
+                    return response()->json(['success' => false, 'message' => 'Unsupported action requested.'], 400);
             }
         } catch (ValidationException $ve) {
             return response()->json(['success' => false, 'message' => $ve->validator->errors()->first()], 422);
@@ -99,6 +131,4 @@ class SellerProfileController extends Controller
             return response()->json(['success' => false, 'message' => 'Execution Error: ' . $e->getMessage()], 500);
         }
     }
-
-   
 }

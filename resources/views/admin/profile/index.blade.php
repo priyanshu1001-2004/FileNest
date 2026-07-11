@@ -18,7 +18,7 @@
 
                         <div class="col-xl-2 text-center">
 
-                            <img src="https://placehold.co/150x150?text=Admin" class="rounded-circle border shadow"
+                            <img src="https://placehold.co/150x150?text=Admin" class="rounded-circle border "
                                 width="130">
 
                         </div>

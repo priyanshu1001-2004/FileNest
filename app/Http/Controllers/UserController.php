@@ -44,6 +44,7 @@ class UserController extends Controller
 
     public function toggleStatus(Request $request)
     {
+        // dd($request->all());
         try {
 
             $request->validate([
@@ -60,6 +61,7 @@ class UserController extends Controller
             }
 
             $record = $modelClass::findOrFail($request->id);
+            // dd($record);
 
             $record->status = !$record->status;
             $record->save();

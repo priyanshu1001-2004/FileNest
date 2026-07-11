@@ -60,6 +60,8 @@
     @include('components.cropper')
     @include('layouts.js')
 
+    @stack('scripts')
+
 </body>
 
 </html>

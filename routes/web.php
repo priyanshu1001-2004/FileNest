@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\buyer\BuyerController;
 use App\Http\Controllers\buyer\BuyerProfileController;
 use App\Http\Controllers\ProfileController;
@@ -31,11 +33,23 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+
+        // Dashboard
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+        // Users Management
         Route::get('/users', [AdminController::class, 'users'])->name('users.index');
         Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+        // Profile
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile.show');
+
+        // Categories CRUD
+        Route::resource('categories', CategoryController::class);
+
+        // Products CRUD
+        Route::resource('products', ProductController::class);
     });
 
     Route::middleware([SellerMiddleware::class])->prefix('seller')->name('seller.')->group(function () {

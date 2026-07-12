@@ -11,18 +11,41 @@ class Product extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'seller_id', 'category_id',
-        'title', 'slug', 'description', 'short_description',
-        'price', 'compare_price', 'cost_per_item', 'profit_margin',
-        'thumbnail', 'gallery_images', 'preview_video',
+        'seller_id',
+        'category_id',
+        'title',
+        'slug',
+        'description',
+        'short_description',
+        'price',
+        'compare_price',
+        'cost_per_item',
+        'profit_margin',
+        'thumbnail',
+        'gallery_images',
+        'preview_video',
         'product_type',
-        'status', 'is_approved', 'approved_at', 'approved_by', 'rejection_reason',
+        'status',
+        'is_approved',
+        'approved_at',
+        'approved_by',
+        'rejection_reason',
         'is_featured',
-        'download_limit', 'total_downloads', 'is_unlimited',
-        'delivery_type', 'external_url',
-        'view_count', 'wishlist_count', 'sales_count', 'average_rating', 'review_count',
-        'meta_title', 'meta_description', 'meta_keywords',
-        'created_by', 'updated_by'
+        'download_limit',
+        'total_downloads',
+        'is_unlimited',
+        'delivery_type',
+        'external_url',
+        'view_count',
+        'wishlist_count',
+        'sales_count',
+        'average_rating',
+        'review_count',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
+        'created_by',
+        'updated_by'
     ];
 
     protected $casts = [
@@ -65,7 +88,7 @@ class Product extends Model
     }
 
     // ==================== RELATIONSHIPS ====================
-    
+
     public function seller()
     {
         return $this->belongsTo(User::class, 'seller_id');
@@ -92,7 +115,7 @@ class Product extends Model
     }
 
     // ==================== SCOPES ====================
-    
+
     public function scopePublished($query)
     {
         return $query->where('status', 'published')->where('is_approved', true);
@@ -125,15 +148,15 @@ class Product extends Model
 
     public function scopeSearch($query, $search)
     {
-        return $query->where(function($q) use ($search) {
+        return $query->where(function ($q) use ($search) {
             $q->where('title', 'LIKE', "%{$search}%")
-              ->orWhere('description', 'LIKE', "%{$search}%")
-              ->orWhere('short_description', 'LIKE', "%{$search}%");
+                ->orWhere('description', 'LIKE', "%{$search}%")
+                ->orWhere('short_description', 'LIKE', "%{$search}%");
         });
     }
 
     // ==================== HELPERS ====================
-    
+
     public function getFinalPrice()
     {
         return $this->sale_price ?? $this->price;
@@ -171,7 +194,7 @@ class Product extends Model
             'rejected' => 'bg-danger',
             'archived' => 'bg-dark'
         ];
-        
+
         return $badges[$this->status] ?? 'bg-secondary';
     }
 
@@ -180,5 +203,29 @@ class Product extends Model
         return ucfirst(str_replace('_', ' ', $this->status));
     }
 
-    
+    public function attributes()
+    {
+        return $this->hasMany(ProductAttribute::class);
+    }
+
+    public function files()
+    {
+        return $this->hasMany(ProductFile::class);
+    }
+
+    public function mainFile()
+    {
+        return $this->hasOne(ProductFile::class)->where('file_type', 'main');
+    }
+
+    public function previewFile()
+    {
+        return $this->hasOne(ProductFile::class)->where('file_type', 'preview');
+    }
+
+    public function getMainFileUrl()
+    {
+        $file = $this->mainFile;
+        return $file ? $file->getDownloadUrl() : null;
+    }
 }

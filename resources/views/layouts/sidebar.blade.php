@@ -45,13 +45,21 @@
                 </li>
 
                 <li class="slide">
+                    <a class="side-menu__item {{ request()->routeIs('admin.sellers.*') ? 'active' : '' }}"
+                        href="{{ route('admin.sellers.index') }}">
+                        <i class="side-menu__icon fe fe-shield"></i>
+                        <span class="side-menu__label">Sellers</span>
+                    </a>
+                </li>
+
+                <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"
                         href="{{ route('admin.categories.index') }}">
                         <i class="side-menu__icon fe fe-folder"></i>
                         <span class="side-menu__label">Categories</span>
                     </a>
                 </li>
-                
+
                 <li class="slide">
                     <a class="side-menu__item {{ request()->routeIs('admin.products.*') ? 'active' : '' }}"
                         href="{{ route('admin.products.index') }}">
@@ -59,6 +67,7 @@
                         <span class="side-menu__label">Products</span>
                     </a>
                 </li>
+
 
                 @endif
 

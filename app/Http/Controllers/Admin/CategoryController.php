@@ -12,32 +12,24 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
-
-    /**
-     * Display a listing of categories.
-     */
     /**
      * Display a listing of categories.
      */
     public function index(Request $request)
     {
         try {
-            // Get all filter parameters
             $search = $request->get('search');
             $status = $request->get('status');
             $parentId = $request->get('parent_id');
             $dateFilter = $request->get('date_filter');
 
-            // Build query
             $categories = Category::with(['parent', 'children'])
-                // Search filter
                 ->when($search, function ($query, $search) {
                     return $query->where(function ($q) use ($search) {
                         $q->where('name', 'LIKE', "%{$search}%")
                             ->orWhere('description', 'LIKE', "%{$search}%");
                     });
                 })
-                // Status filter
                 ->when($status, function ($query, $status) {
                     if ($status === 'active') {
                         return $query->where('status', true);
@@ -46,14 +38,12 @@ class CategoryController extends Controller
                     }
                     return $query;
                 })
-                // Parent category filter
                 ->when($parentId !== null && $parentId !== '', function ($query) use ($parentId) {
                     if ($parentId === 'null') {
                         return $query->whereNull('parent_id');
                     }
                     return $query->where('parent_id', $parentId);
                 })
-                // Date filter
                 ->when($dateFilter, function ($query, $dateFilter) {
                     switch ($dateFilter) {
                         case 'today':
@@ -72,24 +62,18 @@ class CategoryController extends Controller
                             return $query;
                     }
                 })
-                // Order by latest first
                 ->orderBy('created_at', 'desc')
                 ->paginate(20);
 
-            // ============================================
-            // STATISTICS
-            // ============================================
+            // Statistics
             $totalCategories = Category::count();
             $activeCategories = Category::where('status', true)->count();
             $inactiveCategories = Category::where('status', false)->count();
             $rootCategories = Category::whereNull('parent_id')->count();
             $subCategories = Category::whereNotNull('parent_id')->count();
 
-
-            // Get category options for dropdown
             $categoryOptions = Category::getNestedOptions();
 
-            // Return view with data
             return view('admin.categories.index', compact(
                 'categories',
                 'categoryOptions',
@@ -100,14 +84,12 @@ class CategoryController extends Controller
                 'subCategories'
             ));
         } catch (\Exception $e) {
-            // Log error for debugging
             Log::error('Category Index Error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
                 'request' => $request->all(),
             ]);
 
-            // Return with error message
             return back()->with('error', 'Unable to load categories. Please try again.');
         }
     }
@@ -118,6 +100,12 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         try {
+            // ✅ Parse field_schema from JSON string to array BEFORE validation
+            if ($request->has('field_schema') && is_string($request->field_schema)) {
+                $fieldSchema = json_decode($request->field_schema, true);
+                $request->merge(['field_schema' => $fieldSchema]);
+            }
+
             $validatedData = $request->validate([
                 'name' => [
                     'required',
@@ -145,12 +133,18 @@ class CategoryController extends Controller
                     'required',
                     'boolean',
                 ],
+                'field_schema' => [
+                    'nullable',
+                    'array', // ✅ Now receives array
+                ],
             ]);
 
+            // Generate slug if not provided
             if (empty($validatedData['slug'])) {
                 $validatedData['slug'] = $this->generateUniqueSlug($validatedData['name']);
             }
 
+            // Add audit trail
             $validatedData['created_by'] = auth()->id();
             $validatedData['updated_by'] = auth()->id();
 
@@ -194,18 +188,35 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        // Load relationships
-        $category->load(['parent', 'children', 'creator', 'updater']);
+        try {
+            $category->load(['parent', 'children', 'creator', 'updater']);
 
-        // Return HTML view directly (not JSON)
-        return view('admin.categories.show', compact('category'));
+            return view('admin.categories.show', compact('category'));
+        } catch (\Exception $e) {
+            Log::error('Category Show Error', [
+                'error' => $e->getMessage(),
+                'category_id' => $category->id,
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to load category details.',
+            ], 500);
+        }
     }
+
     /**
      * Update the specified category.
      */
     public function update(Request $request, Category $category)
     {
         try {
+            // ✅ Parse field_schema from JSON string to array BEFORE validation
+            if ($request->has('field_schema') && is_string($request->field_schema)) {
+                $fieldSchema = json_decode($request->field_schema, true);
+                $request->merge(['field_schema' => $fieldSchema]);
+            }
+
             $validatedData = $request->validate([
                 'name' => [
                     'required',
@@ -234,12 +245,18 @@ class CategoryController extends Controller
                     'required',
                     'boolean',
                 ],
+                'field_schema' => [
+                    'nullable',
+                    'array', // ✅ Now receives array
+                ],
             ]);
 
+            // Generate slug if not provided
             if (empty($validatedData['slug'])) {
                 $validatedData['slug'] = $this->generateUniqueSlug($validatedData['name']);
             }
 
+            // Add audit trail
             $validatedData['updated_by'] = auth()->id();
 
             $category = DB::transaction(function () use ($category, $validatedData) {
@@ -316,7 +333,6 @@ class CategoryController extends Controller
             ], 500);
         }
     }
-
 
     /**
      * Generate a unique slug.

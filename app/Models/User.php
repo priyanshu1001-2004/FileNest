@@ -56,4 +56,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(BuyerDetail::class, 'user_id');
     }
+
+    public function isVerifiedSeller()
+    {
+        return $this->isSeller() && $this->sellerDetail && $this->sellerDetail->is_verified;
+    }
+
+    public function getSellerStoreName()
+    {
+        return $this->sellerDetail ? $this->sellerDetail->store_name : null;
+    }
 }

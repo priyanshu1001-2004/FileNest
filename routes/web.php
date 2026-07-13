@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProductAttributeController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductFileController;
 use App\Http\Controllers\Admin\SellerController as AdminSellerController;
+use App\Http\Controllers\Seller\ProductController as SellerProductController;
 use App\Http\Controllers\buyer\BuyerController;
 use App\Http\Controllers\buyer\BuyerProfileController;
 use App\Http\Controllers\ProfileController;
@@ -93,10 +94,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 });
         });
 
+
     Route::middleware([SellerMiddleware::class])->prefix('seller')->name('seller.')->group(function () {
         Route::get('/dashboard', [SellerController::class, 'dashboard'])->name('dashboard');
         Route::get('/profile', [SellerProfileController::class, 'index'])->name('profile.index');
         Route::put('/profile/update', [SellerProfileController::class, 'update'])->name('profile.update');
+
+        Route::resource('products', SellerProductController::class);
+        Route::get('categories/{category}/attributes', [SellerProductController::class, 'getAttributes'])
+            ->name('categories.attributes');
+
+
+        // Get product attributes (AJAX)
+        Route::get('products/{product}/attributes', [SellerProductController::class, 'getProductAttributes'])
+            ->name('products.attributes');
+
+        // Get product files (AJAX)
+        Route::get('products/{product}/files', [SellerProductController::class, 'getProductFiles'])
+            ->name('products.files');
+
+        Route::post('products/{product}/archive', [SellerProductController::class, 'archive'])->name('products.archive');
+
+        Route::post('products/{product}/unarchive', [SellerProductController::class, 'unarchive'])->name('products.unarchive');
     });
 
     Route::middleware([BuyerMiddleware::class])->prefix('buyer')->name('buyer.')->group(function () {

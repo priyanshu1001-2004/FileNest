@@ -67,7 +67,17 @@
                         <span class="side-menu__label">Products</span>
                     </a>
                 </li>
+                @endif
 
+                @if(auth()->user()->isSeller())
+
+                <li class="slide">
+                    <a class="side-menu__item {{ request()->routeIs('seller.products.*') ? 'active' : '' }}"
+                        href="{{ route('seller.products.index') }}">
+                        <i class="side-menu__icon fe fe-box"></i>
+                        <span class="side-menu__label">Products</span>
+                    </a>
+                </li>
 
                 @endif
 

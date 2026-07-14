@@ -27,8 +27,10 @@ class SellerProfileController extends Controller
                 return response()->json(['success' => false, 'message' => 'Unauthenticated access.'], 401);
             }
 
-            // Fetch or dynamically initialize the seller profile context
-            $seller = $user->sellerDetail ?: SellerDetail::create(['user_id' => $user->id]);
+            // // Fetch or dynamically initialize the seller profile context
+           $seller = $user->sellerDetail; 
+
+            // dd($seller);
 
             switch ($tab) {
                 case 'logo':

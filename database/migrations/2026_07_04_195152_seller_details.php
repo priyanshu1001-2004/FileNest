@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
 
             // ============ STORE INFORMATION ============
-            $table->string('store_name')->unique();
+            $table->string('store_name')->unique()->nullable();
             $table->string('store_slug')->unique();
             $table->string('store_logo')->nullable();
             $table->string('store_banner')->nullable();

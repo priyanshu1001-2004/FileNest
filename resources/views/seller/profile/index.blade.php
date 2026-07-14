@@ -649,7 +649,7 @@
 
     <div class="modal fade" id="storeInfoModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <form class="modal-content bg-body text-body ajax-form" action="{{ route('seller.profile.update') }}"
+            <form class="modal-content  ajax-form" action="{{ route('seller.profile.update') }}"
                 method="POST" data-modal="#storeInfoModal">
                 @csrf
                 @method('PUT')
@@ -689,7 +689,7 @@
 
     <div class="modal fade" id="businessInfoModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <form class="modal-content bg-body text-body ajax-form" action="{{ route('seller.profile.update') }}"
+            <form class="modal-content ajax-form" action="{{ route('seller.profile.update') }}"
                 method="POST" data-modal="#businessInfoModal">
                 @csrf
                 @method('PUT')
@@ -745,7 +745,7 @@
 
     <div class="modal fade" id="contactInfoModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <form class="modal-content bg-body text-body ajax-form" action="{{ route('seller.profile.update') }}"
+            <form class="modal-content ajax-form" action="{{ route('seller.profile.update') }}"
                 method="POST" data-modal="#contactInfoModal">
                 @csrf
                 @method('PUT')
@@ -805,7 +805,7 @@
 
     <div class="modal fade" id="storePoliciesModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <form class="modal-content bg-body text-body ajax-form" action="{{ route('seller.profile.update') }}"
+            <form class="modal-content ajax-form" action="{{ route('seller.profile.update') }}"
                 method="POST" data-modal="#storePoliciesModal">
                 @csrf
                 @method('PUT')
@@ -850,7 +850,7 @@
 
     <div class="modal fade" id="socialLinksModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <form class="modal-content bg-body text-body ajax-form" action="{{ route('seller.profile.update') }}"
+            <form class="modal-content ajax-form" action="{{ route('seller.profile.update') }}"
                 method="POST" data-modal="#socialLinksModal">
                 @csrf
                 @method('PUT')

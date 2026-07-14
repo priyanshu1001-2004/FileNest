@@ -169,7 +169,7 @@
                     <!-- Table -->
                     <div class="table-responsive" id="table-container">
                         <table class="table table-hover table-bordered text-nowrap border-bottom">
-                            <thead class="table-light">
+                            <thead class="">
                                 <tr>
                                     <th>#</th>
                                     <th>Product</th>

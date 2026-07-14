@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\SellerDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Str;
+
 
 class SellerRegisterController extends Controller
 {
@@ -28,7 +31,17 @@ class SellerRegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 1,
-            'status' => false,
+            'status' => true,
+        ]);
+
+        $sellerDetail = SellerDetail::create([
+            'user_id' => $user->id,
+            'store_name' => $user->name . "'s Store",
+            'store_slug' => Str::slug($user->name . '-store'),
+            'seller_type' => 'individual',
+            'is_verified' => false,
+            'is_suspended' => false,
+            'is_featured' => false,
         ]);
 
         auth()->login($user);

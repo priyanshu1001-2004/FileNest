@@ -30,7 +30,13 @@ Route::post('/toggle-status', [UserController::class, 'toggleStatus']);
 
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    if (auth()->user()->role == 0) {
+        return redirect()->route('admin.dashboard');
+    } elseif (auth()->user()->role == 1) {
+        return redirect()->route('seller.dashboard');
+    } else {
+        return redirect()->route('buyer.dashboard');
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('download/file/{file}', [ProductFileController::class, 'download'])->name('product.file.download');
